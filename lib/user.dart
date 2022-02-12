@@ -93,6 +93,15 @@ class User {
     return null;
   }
 
+  bool doesIntervalExist(BookingRecord br, Interval interval) {
+    for (var element in br.intervals) {
+      if (element.intersects(interval)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   void addBooking(DateTime date, int startHour, int endHour) {
     // TODO: make a new booking record, add it to the bookingRecords.
     var newFormat = DateFormat("yyyy-MM-dd");

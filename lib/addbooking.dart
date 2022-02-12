@@ -1,10 +1,15 @@
+import 'package:carpool/user.dart';
 import 'package:flutter/material.dart';
 
-class addbooking extends StatelessWidget {
+import 'LoginForm.dart';
+
+class AddBooking extends StatefulWidget {
   late List<Widget> widgetlist;
 
-  addbooking(this.date, this.starttime, this.endtime, {Key? key})
+  AddBooking(this.date, this.starttime, this.endtime, this.curIntervalIndex, BookingRecord? this.br,
+      {Key? key})
       : super(key: key) {
+    brs = LoginForm.u.getBookingMatching(br!);
     widgetlist = [
       const ListTile(
         title: Center(
@@ -64,6 +69,16 @@ class addbooking extends StatelessWidget {
   final String date;
   final String starttime;
   final String endtime;
+  late Future<List<BookingRecord>> brs;
+  int curIntervalIndex;
+  BookingRecord? br;
+
+  @override
+  State<AddBooking> createState() => _AddBookingState();
+}
+
+class _AddBookingState extends State<AddBooking> {
+  // late List<BookingRecord> brs;
   List<String> carpools = [
     "Ishaan Jalan",
     "Rudransh Dixit",
@@ -75,9 +90,9 @@ class addbooking extends StatelessWidget {
     "nilesh"
   ];
 
+  // TODO: add getBookingData..
   @override
   Widget build(BuildContext context) {
-    avlblcarpools();
     return Scaffold(
       appBar: AppBar(
         title: Column(
@@ -89,7 +104,7 @@ class addbooking extends StatelessWidget {
               style: TextStyle(color: Colors.white, fontSize: 16.0),
             ),
             Text(
-              "New Booking Details",
+              "Booking Details",
               style: TextStyle(color: Colors.white, fontSize: 14.0),
             )
           ],
@@ -116,8 +131,8 @@ class addbooking extends StatelessWidget {
         backgroundColor: Colors.black,
         shape: const Border(
             bottom: BorderSide(
-          color: Color(0xFF424242),
-        )),
+              color: Color(0xFF424242),
+            )),
       ),
       backgroundColor: Colors.black,
       floatingActionButton: FloatingActionButton(
@@ -133,12 +148,12 @@ class addbooking extends StatelessWidget {
                   ),
                   title: const Center(
                     child: Text(
-                      'Confirmation',
+                      'New Booking',
                       style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
                   ), // To display the title it is optional
                   content: const Text(
-                    'Are you sure you want to book this slot?',
+                    'Are you sure you want to book the slot?',
                     style: TextStyle(color: Colors.white),
                   ), // Message which will be pop up on the screen
                   // Action widget which will provide the user to acknowledge the choice
@@ -149,6 +164,7 @@ class addbooking extends StatelessWidget {
                         //DB deletion strategy same as home.dart
                         Navigator.pop(context);
                         Navigator.pop(context);
+                        // TODO: add delete
                       }, // function used to perform after pressing the button
                       child: const Text(
                         'YES',
@@ -169,47 +185,62 @@ class addbooking extends StatelessWidget {
               ),
             );
           },
-          backgroundColor: Colors.green[700],
+          backgroundColor: Colors.green,
           child: const Icon(
             Icons.add,
             color: Colors.white,
           )),
-      body: Scrollbar(
-        child: ListView(
-          scrollDirection: Axis.vertical,
-          shrinkWrap: true,
-          padding: EdgeInsets.all(5),
-          children: widgetlist,
-        ),
-      ),
+      body: FutureBuilder<bool>(
+          future: avlblcarpools(),
+          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+            if (snapshot.hasData) {
+              List<Widget> children = widget.widgetlist;
+              return Scrollbar(
+                child: ListView(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  padding: EdgeInsets.all(5),
+                  children: widget.widgetlist,
+                ),
+              );
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          }),
+      
     );
   }
 
-  void avlblcarpools() {
-    if (carpools.length != 0) {
-      for (int i = 0; i < carpools.length; i++) {
-        String name = carpools[i];
-        widgetlist.add(
-          ListTile(
-            leading: const Icon(
-              Icons.person,
-              color: Colors.blue,
-              size: 22,
-            ),
-            title: Text(
-              name,
-              style: const TextStyle(
-                  color: Colors.white, fontFamily: 'Helvetica', fontSize: 15),
-            ),
-            tileColor: Colors.black,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
+  Future<bool> avlblcarpools() async {
+    bool temp = false;
+    List<BookingRecord> value = await widget.brs;
+    for (int i = 0; i < value.length; i++) {
+      temp = true;
+      String name = value[i].uid;
+      widget.widgetlist.add(
+        ListTile(
+          leading: const Icon(
+            Icons.person,
+            color: Colors.blue,
+            size: 22,
           ),
-        );
-      }
-    } else {
-      widgetlist.add(
+          title: Text(
+            name,
+            style: const TextStyle(
+                color: Colors.white, fontFamily: 'Helvetica', fontSize: 15),
+          ),
+          tileColor: Colors.black,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+      );
+    }
+    if (value.isEmpty) {
+      temp = false;
+      widget.widgetlist.add(
         const ListTile(
           title: Center(
             child: Text(
@@ -222,5 +253,6 @@ class addbooking extends StatelessWidget {
         ),
       );
     }
+    return temp;
   }
 }

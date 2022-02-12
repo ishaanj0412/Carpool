@@ -44,19 +44,8 @@ class Landing extends State<TabNavigator>{
             ),
           ),
           backgroundColor: Colors.black,
-          actions: <Widget>[
-            IconButton(
-              
-              icon: const Icon(
-                Icons.date_range,
-                color: Colors.blue,
-              ),
-              onPressed: () {
-                _showCalendar(context);
+          actions: actionwidgets(),
 
-              },
-            ),
-          ],
           shape: const Border(
           bottom: BorderSide(
             color: Color(0xFF424242),
@@ -125,14 +114,6 @@ class Landing extends State<TabNavigator>{
       // homepage.createState().setbookings();
       Home.homep.setbookings();
     }
-    else{
-      LoginForm.u.selected = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(1960),
-        lastDate: DateTime(2060),
-      );
-    }
     
   }
 
@@ -145,5 +126,25 @@ class Landing extends State<TabNavigator>{
       a = "Add a New Booking";
     }
     return a;
+  }
+
+  List<Widget>? actionwidgets(){
+    List<Widget>? temp;
+    if(state == 0){
+      temp = <Widget>[
+            IconButton(
+              
+              icon: const Icon(
+                Icons.date_range,
+                color: Colors.blue,
+              ),
+              onPressed: () {
+                _showCalendar(context);
+
+              },
+            ),
+          ];
+    }
+    return temp;
   }
 }

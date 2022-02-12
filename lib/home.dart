@@ -95,7 +95,8 @@ class Homepage extends State<Home> {
         })) {
       case Options.ShowDetails:
         // Let's go.
-        Navigator.push(context, MaterialPageRoute(builder: (context) => BookingDetails("11-02-2022", "2:00", "3:00", br: curBookingRecord)));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => BookingDetails("11-02-2022", "2:00", "3:00", curIntervalIndex, curBookingRecord)));
         // TODO: connect with backend
         print("show details clicked");
         break;
@@ -105,11 +106,11 @@ class Homepage extends State<Home> {
         if (curIntervalIndex != -1) {
           LoginForm.u.deleteBooking(curBookingRecord!, curBookingRecord!.intervals[curIntervalIndex]);
         }
+        curIntervalIndex = -1;
 
         print("remove clicked");
         break;
     }
-    curIntervalIndex = -1;
   }
 
   @override
@@ -132,108 +133,104 @@ class Homepage extends State<Home> {
             ),
             Center(
                 child: RichText(
-                  text: TextSpan(
-                    children: [
-                      const WidgetSpan(
-                        child: Icon(Icons.lock_clock, size: 22, color: Colors.blue),
-                      ),
-                      TextSpan(
-                        text: " $dt",
-                        style: TextStyle(color: Colors.white, fontSize: 15),
-                      ),
-                    ],
+              text: TextSpan(
+                children: [
+                  const WidgetSpan(
+                    child: Icon(Icons.calendar_today_rounded ,size: 22, color: Colors.blue),
                   ),
-                )
-            ),
+                  TextSpan(
+                    text: " $dt",
+                    style: TextStyle(color: Colors.white, fontSize: 15),
+                  ),
+                ],
+              ),
+            )),
             const SizedBox(
               height: 15,
             ),
           ];
 
-          for(int i=0; i<curBookingRecord!.intervals.length ; i++){
+          for (int i = 0; i < curBookingRecord!.intervals.length; i++) {
             String starttime = curBookingRecord!.intervals[i].start.toString() + ":00";
             String endtime = curBookingRecord!.intervals[i].end.toString() + ":00";
-            widgetlist.add(
-                Container(
-                  margin: const EdgeInsets.all(5),
-                  child: Card(
+            widgetlist.add(Container(
+              margin: const EdgeInsets.all(5),
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: ListTile(
+                    leading: const Icon(
+                      Icons.car_rental,
+                      color: Colors.white,
+                    ),
+                    title: Text(
+                      "Booking Time: $starttime to $endtime",
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    tileColor: Colors.blue,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: ListTile(
-                        leading: const Icon(
-                          Icons.car_rental,
+                    trailing: IconButton(
+                        onPressed: () {
+                          curIntervalIndex = i;
+                          OpenDialog().then((value) => bookings());
+                        },
+                        icon: const Icon(
+                          Icons.more_vert,
                           color: Colors.white,
-                        ),
-                        title: Text(
-                          "Booking Time: $starttime to $endtime",
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                        tileColor: Colors.blue,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        trailing: IconButton(
-                            onPressed: () {
-                              curIntervalIndex = i;
-                              OpenDialog().then((value) => bookings());
-                            },
-                            icon: const Icon(
-                              Icons.more_vert,
-                              color: Colors.white,
-                            ))),
-                  ),
-                )
-            );
+                        ))),
+              ),
+            ));
           }
           presentwidget = Scrollbar(
               child: ListView(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                children: widgetlist,
-              ));
-        }
-      } else {
-          print(1);
-          widgetlist = [
-            const SizedBox(
-              height: 10,
-            ),
-            Center(
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      const WidgetSpan(
-                        child: Icon(Icons.lock_clock, size: 22, color: Colors.blue),
-                      ),
-                      TextSpan(
-                        text: " $dt",
-                        style: TextStyle(color: Colors.white, fontSize: 15),
-                      ),
-                    ],
-                  ),
-                )
-            ),
-            const SizedBox(
-              height: 220,
-            ),
-            const Center(
-              child: Text(
-                "You have no bookings available for the selected date.",
-                style: TextStyle(color: Colors.white, fontFamily: 'Helvetica'),
-              ),
-            ),
-          ];
-
-          presentwidget = Scrollbar(
-              child: ListView(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  children: widgetlist,
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            children: widgetlist,
           ));
         }
-      });
-    }
+      } else {
+        print(1);
+        widgetlist = [
+          const SizedBox(
+            height: 10,
+          ),
+          Center(
+              child: RichText(
+            text: TextSpan(
+              children: [
+                const WidgetSpan(
+                  child: Icon(Icons.calendar_today_rounded,size: 22, color: Colors.blue),
+                ),
+                TextSpan(
+                  text: " $dt",
+                  style: TextStyle(color: Colors.white, fontSize: 15),
+                ),
+              ],
+            ),
+          )),
+          const SizedBox(
+            height: 220,
+          ),
+          const Center(
+            child: Text(
+              "You have no bookings available for the selected date.",
+              style: TextStyle(color: Colors.white, fontFamily: 'Helvetica'),
+            ),
+          ),
+        ];
+
+        presentwidget = Scrollbar(
+            child: ListView(
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          children: widgetlist,
+        ));
+      }
+    });
+  }
 
   void setbookings() async {
     print("setbookings called");
