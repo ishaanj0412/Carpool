@@ -34,7 +34,7 @@ class newBookings extends State<Booking>{
     return Scaffold(
       backgroundColor: Colors.black,
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(60, 80, 60, 80),
+          padding: const EdgeInsets.fromLTRB(40, 60, 40, 60),
         child: Center(
           child: ListTile(
             tileColor: Colors.grey[900],
@@ -53,7 +53,7 @@ class newBookings extends State<Booking>{
                   tileColor: Color(0xFF212121),
                 ),
                 const SizedBox(
-                  height: 35,
+                  height: 130,
                 ),
                 ListTile(
                   leading: Text(
@@ -97,7 +97,7 @@ class newBookings extends State<Booking>{
                   ),
                   ),
                   const SizedBox(
-                  height: 85,
+                  height: 130,
                 ),
                 ElevatedButton(
                   onPressed: () {
