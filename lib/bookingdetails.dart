@@ -128,7 +128,9 @@ class _BookingDetailsState extends State<BookingDetails> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => AlertDialog(
+                builder: (context) => Scaffold(
+                  backgroundColor: Colors.black,
+                  body: AlertDialog(
                   backgroundColor: Color(0xFF212121),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14),
@@ -173,6 +175,7 @@ class _BookingDetailsState extends State<BookingDetails> {
                       ),
                     ),
                   ],
+                ),
                 ),
               ),
             );
