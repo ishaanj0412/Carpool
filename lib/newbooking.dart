@@ -1,10 +1,12 @@
 import 'dart:developer';
 
+import 'package:carpool/bookingdetails.dart';
 import 'package:flutter/material.dart';
 import 'package:carpool/LoginForm.dart';
 import 'package:carpool/user.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:carpool/addbooking.dart';
 
 enum Options {OK,CANCEL}
 
@@ -22,6 +24,9 @@ class Booking extends StatefulWidget{
 
 class newBookings extends State<Booking>{
 
+  User curUser = LoginForm.u;
+  late BookingRecord? curBookingRecord;
+  late int curIntervalIndex;
   String date = "Select date";
   late TimeOfDay start;
   @override
@@ -95,7 +100,9 @@ class newBookings extends State<Booking>{
                   height: 85,
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => AddBooking("11-02-2022", "2:00", "3:00", curIntervalIndex, curBookingRecord)));
+                  },
                   child: const Text(
                         "Get Details",
                         style: TextStyle(fontSize: 18),
@@ -265,4 +272,20 @@ class newBookings extends State<Booking>{
     break;
   }
 }
+void setbookings() async {
+    print("setbookings called");
+    var newFormat = DateFormat("yyyy-MM-dd");
+    String dt = "";
+    if (LoginForm.u.present != null) dt = newFormat.format(LoginForm.u.present!);
+
+    curBookingRecord = null;
+    curIntervalIndex = -1;
+    curUser = LoginForm.u;
+
+    // I have preset Date, there might be booking on that day or not
+    // User -> BookingRecord
+    // if (curBookingRecord is null) means that day has no record
+
+    curBookingRecord = curUser.bookingRecordExists(dt);
+  }
 }

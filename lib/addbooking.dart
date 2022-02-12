@@ -6,8 +6,8 @@ import 'LoginForm.dart';
 class AddBooking extends StatefulWidget {
   late List<Widget> widgetlist;
 
-  AddBooking(this.date, this.starttime, this.endtime,
-      {Key? key, BookingRecord? br})
+  AddBooking(this.date, this.starttime, this.endtime, this.curIntervalIndex, BookingRecord? this.br,
+      {Key? key})
       : super(key: key) {
     brs = LoginForm.u.getBookingMatching(br!);
     widgetlist = [
@@ -70,6 +70,8 @@ class AddBooking extends StatefulWidget {
   final String starttime;
   final String endtime;
   late Future<List<BookingRecord>> brs;
+  int curIntervalIndex;
+  BookingRecord? br;
 
   @override
   State<AddBooking> createState() => _AddBookingState();
@@ -146,12 +148,12 @@ class _AddBookingState extends State<AddBooking> {
                   ),
                   title: const Center(
                     child: Text(
-                      'Cancel Booking',
+                      'New Booking',
                       style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
                   ), // To display the title it is optional
                   content: const Text(
-                    'Are you sure you want to cancel the booking?',
+                    'Are you sure you want to book the slot?',
                     style: TextStyle(color: Colors.white),
                   ), // Message which will be pop up on the screen
                   // Action widget which will provide the user to acknowledge the choice
@@ -166,7 +168,7 @@ class _AddBookingState extends State<AddBooking> {
                       }, // function used to perform after pressing the button
                       child: const Text(
                         'YES',
-                        style: TextStyle(color: Colors.red),
+                        style: TextStyle(color: Colors.green),
                       ),
                     ),
                     TextButton(
@@ -175,7 +177,7 @@ class _AddBookingState extends State<AddBooking> {
                       },
                       child: const Text(
                         'NO',
-                        style: TextStyle(color: Colors.green),
+                        style: TextStyle(color: Colors.red),
                       ),
                     ),
                   ],
@@ -183,9 +185,9 @@ class _AddBookingState extends State<AddBooking> {
               ),
             );
           },
-          backgroundColor: Colors.red,
+          backgroundColor: Colors.green,
           child: const Icon(
-            Icons.delete,
+            Icons.add,
             color: Colors.white,
           )),
       body: FutureBuilder<bool>(
@@ -207,14 +209,7 @@ class _AddBookingState extends State<AddBooking> {
               );
             }
           }),
-      // body: Scrollbar(
-      //   child: ListView(
-      //     scrollDirection: Axis.vertical,
-      //     shrinkWrap: true,
-      //     padding: EdgeInsets.all(5),
-      //     children: widget.widgetlist,
-      //   ),
-      // ),
+      
     );
   }
 
