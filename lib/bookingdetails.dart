@@ -117,8 +117,8 @@ class _BookingDetailsState extends State<BookingDetails> {
         backgroundColor: Colors.black,
         shape: const Border(
             bottom: BorderSide(
-          color: Color(0xFF424242),
-        )),
+              color: Color(0xFF424242),
+            )),
       ),
       backgroundColor: Colors.black,
       floatingActionButton: FloatingActionButton(
@@ -179,9 +179,9 @@ class _BookingDetailsState extends State<BookingDetails> {
             Icons.delete,
             color: Colors.white,
           )),
-      body: FutureBuilder<void>(
+      body: FutureBuilder<bool>(
           future: avlblcarpools(),
-          builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
             if (snapshot.hasData) {
               List<Widget> children = widget.widgetlist;
               return Scrollbar(
@@ -209,9 +209,11 @@ class _BookingDetailsState extends State<BookingDetails> {
     );
   }
 
-  Future<void> avlblcarpools() async {
+  Future<bool> avlblcarpools() async {
+    bool temp = false;
     List<BookingRecord> value = await widget.brs;
     for (int i = 0; i < value.length; i++) {
+      temp = true;
       String name = value[i].uid;
       widget.widgetlist.add(
         ListTile(
@@ -252,6 +254,7 @@ class _BookingDetailsState extends State<BookingDetails> {
     //   );
     // }
     if (value.isEmpty) {
+      temp = false;
       widget.widgetlist.add(
         const ListTile(
           title: Center(
@@ -264,5 +267,6 @@ class _BookingDetailsState extends State<BookingDetails> {
         ),
       );
     }
+    return temp;
   }
 }
