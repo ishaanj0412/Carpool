@@ -1,3 +1,4 @@
+import 'package:carpool/home.dart';
 import 'package:carpool/user.dart';
 import 'package:flutter/material.dart';
 
@@ -117,8 +118,8 @@ class _BookingDetailsState extends State<BookingDetails> {
         backgroundColor: Colors.black,
         shape: const Border(
             bottom: BorderSide(
-              color: Color(0xFF424242),
-            )),
+          color: Color(0xFF424242),
+        )),
       ),
       backgroundColor: Colors.black,
       floatingActionButton: FloatingActionButton(
@@ -154,6 +155,8 @@ class _BookingDetailsState extends State<BookingDetails> {
                         if (widget.curIntervalIndex != -1 && widget.br != null) {
                           LoginForm.u.deleteBooking(widget.br!, widget.br!.intervals[widget.curIntervalIndex]);
                         }
+                        widget.curIntervalIndex = -1;
+                        Home.homep.bookings();
                       }, // function used to perform after pressing the button
                       child: const Text(
                         'YES',

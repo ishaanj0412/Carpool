@@ -106,11 +106,11 @@ class Homepage extends State<Home> {
         if (curIntervalIndex != -1) {
           LoginForm.u.deleteBooking(curBookingRecord!, curBookingRecord!.intervals[curIntervalIndex]);
         }
+        curIntervalIndex = -1;
 
         print("remove clicked");
         break;
     }
-    curIntervalIndex = -1;
   }
 
   @override
