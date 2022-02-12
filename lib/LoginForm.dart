@@ -44,7 +44,11 @@ class LoginForm extends StatelessWidget {
                     const Text(
                       "ShareCab\n",
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.white, fontFamily: 'Helvetica'),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 22,
+                          color: Colors.white,
+                          fontFamily: 'Helvetica'),
                     ),
                     TextFormField(
                       validator: (value) {
@@ -63,14 +67,21 @@ class LoginForm extends StatelessWidget {
                       keyboardType: TextInputType.emailAddress,
                       style: const TextStyle(color: Colors.white),
                       decoration: InputDecoration(
-                        hintStyle: const TextStyle(color: Colors.grey, fontSize: 14, fontFamily: 'Helvetica'),
-                        labelStyle: const TextStyle(color: Colors.grey, fontSize: 14, fontFamily: 'Helvetica'),
+                        hintStyle: const TextStyle(
+                            color: Colors.grey,
+                            fontSize: 14,
+                            fontFamily: 'Helvetica'),
+                        labelStyle: const TextStyle(
+                            color: Colors.grey,
+                            fontSize: 14,
+                            fontFamily: 'Helvetica'),
                         hintText: "Enter Your Email",
                         labelText: "Email ID",
                         filled: true,
                         fillColor: const Color(0xFF424242),
                         contentPadding: const EdgeInsets.all(15),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(7.0)),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(7.0)),
                       ),
                     ),
                     const SizedBox(
@@ -89,14 +100,21 @@ class LoginForm extends StatelessWidget {
                       keyboardType: TextInputType.text,
                       style: const TextStyle(color: Colors.white),
                       decoration: InputDecoration(
-                        hintStyle: const TextStyle(color: Colors.grey, fontSize: 14, fontFamily: 'Helvetica'),
-                        labelStyle: const TextStyle(color: Colors.grey, fontSize: 14, fontFamily: 'Helvetica'),
+                        hintStyle: const TextStyle(
+                            color: Colors.grey,
+                            fontSize: 14,
+                            fontFamily: 'Helvetica'),
+                        labelStyle: const TextStyle(
+                            color: Colors.grey,
+                            fontSize: 14,
+                            fontFamily: 'Helvetica'),
                         hintText: "Enter Your Roll Number",
                         labelText: "Roll Number",
                         filled: true,
                         fillColor: const Color(0xFF424242),
                         contentPadding: const EdgeInsets.all(15),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(7.0)),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(7.0)),
                       ),
                     ),
                     SizedBox(
@@ -108,13 +126,14 @@ class LoginForm extends StatelessWidget {
                           //add backend
 
                           print("Validated");
-                          sendOTP(email_id_controller);
+                          //sendOTP(email_id_controller);
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => OTP(
                                         emailidcontroller: email_id_controller,
-                                        rollnumbercontroller: roll_num_controller,
+                                        rollnumbercontroller:
+                                            roll_num_controller,
                                       )));
                         } else {
                           print("not valid");
@@ -125,9 +144,11 @@ class LoginForm extends StatelessWidget {
                         style: TextStyle(fontSize: 13),
                       ),
                       style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30)),
                         primary: Colors.blue,
-                        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 8),
                       ),
                     )
                   ],

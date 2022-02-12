@@ -8,10 +8,9 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:carpool/addbooking.dart';
 
-enum Options {OK,CANCEL}
+enum Options { OK, CANCEL }
 
-class Booking extends StatefulWidget{
-
+class Booking extends StatefulWidget {
   static newBookings newpage = newBookings();
 
   @override
@@ -19,264 +18,337 @@ class Booking extends StatefulWidget{
     newpage = new newBookings();
     return newpage;
   }
-
 }
 
-class newBookings extends State<Booking>{
-
+class newBookings extends State<Booking> {
   User curUser = LoginForm.u;
   late BookingRecord? curBookingRecord;
   late int curIntervalIndex;
   String date = "Select date";
-  late TimeOfDay start;
+  late TimeOfDay start = TimeOfDay.now();
+  late TimeOfDay end = TimeOfDay.now();
+  late final TextEditingController select_start_time = TextEditingController();
+  late final TextEditingController select_end_time = TextEditingController();
+  final GlobalKey<FormState> key = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      body: Padding(
-          padding: const EdgeInsets.fromLTRB(40, 60, 40, 60),
-        child: Center(
-          child: ListTile(
-            tileColor: Colors.grey[900],
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            title: ListView(
-              children: <Widget>[
-                const ListTile(
-                  title: Center(
-                    child: Text(
-                    "New Booking",
-                    style: TextStyle(color: Colors.blue, fontSize: 24, fontFamily: 'Helvetica'),
+        backgroundColor: Colors.black,
+        body: Padding(
+            padding: const EdgeInsets.fromLTRB(40, 60, 40, 60),
+            child: Center(
+                child: ListTile(
+                    tileColor: Colors.grey[900],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
                     ),
-                  ),
-                  tileColor: Color(0xFF212121),
-                ),
-                const SizedBox(
-                  height: 130,
-                ),
-                ListTile(
-                  leading: Text(
-                      "Date: ",
-                      style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                  title: Center(
-                    child: Text(
-                    date,
-                    style: TextStyle(color: Colors.grey[400], fontSize: 18)),
-                  ),
-                  trailing: IconButton(
-                    onPressed: (){
-                      _showCalendar(context);
-                    },
-                    icon : Icon(
-                      Icons.calendar_today,
-                      color: Colors.blue,
-                    )
-                  ),
-                  ),
-                  const SizedBox(
-                  height: 15,
-                ),
-                ListTile(
-                  leading: Text(
-                      "Time: ",
-                      style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                  title: Center(
-                    child: Text(
-                    date,
-                    style: TextStyle(color: Colors.grey[400], fontSize: 18)),
-                  ),
-                  trailing: IconButton(
-                    onPressed: (){_selectTimeSlot();},
-                    icon : Icon(
-                      Icons.watch,
-                      color: Colors.blue,
-                    )
-                  ),
-                  ),
-                  const SizedBox(
-                  height: 130,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => AddBooking("11-02-2022", "2:00", "3:00", curIntervalIndex, curBookingRecord)));
-                  },
-                  child: const Text(
-                        "Get Details",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                  style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
-                        primary: Colors.green,
-                        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 17),
-                      ),
-                )  
-              ],
-            )
-          )
-        )
-      )
-    );
+                    title: ListView(
+                      children: <Widget>[
+                        const ListTile(
+                          title: Center(
+                            child: Text(
+                              "New Booking",
+                              style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 24,
+                                  fontFamily: 'Helvetica'),
+                            ),
+                          ),
+                          tileColor: Color(0xFF212121),
+                        ),
+                        const SizedBox(
+                          height: 130,
+                        ),
+                        ListTile(
+                          leading: Text(
+                            "Date: ",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          title: Center(
+                            child: Text(date,
+                                style: TextStyle(
+                                    color: Colors.grey[400], fontSize: 18)),
+                          ),
+                          trailing: IconButton(
+                              onPressed: () {
+                                _showCalendar(context);
+                              },
+                              icon: Icon(
+                                Icons.calendar_today,
+                                color: Colors.blue,
+                              )),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        ListTile(
+                          leading: Text(
+                            "Time: ",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          title: Center(
+                            child: Text(
+                                start.hour.toString() +
+                                    ":00 to " +
+                                    end.hour.toString() +
+                                    ":00",
+                                style: TextStyle(
+                                    color: Colors.grey[400], fontSize: 18)),
+                          ),
+                          trailing: IconButton(
+                              onPressed: () {
+                                _selectTimeSlot();
+                              },
+                              icon: Icon(
+                                Icons.watch,
+                                color: Colors.blue,
+                              )),
+                        ),
+                        const SizedBox(
+                          height: 130,
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AddBooking(
+                                        "11-02-2022",
+                                        "2:00",
+                                        "3:00",
+                                        curIntervalIndex,
+                                        curBookingRecord)));
+                          },
+                          child: const Text(
+                            "Get Details",
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(7)),
+                            primary: Colors.green,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 30, vertical: 17),
+                          ),
+                        )
+                      ],
+                    )))));
   }
 
   void setdate(bool val) async {
     setState(() {
-      if(val){
+      if (val) {
         print("setdate called");
         var newFormat = DateFormat("dd-MM-yyyy");
-        if (LoginForm.u.selected != null) date = newFormat.format(LoginForm.u.selected!);
-      }
-      else{
+        if (LoginForm.u.selected != null)
+          date = newFormat.format(LoginForm.u.selected!);
+      } else {
         date = "Select Date";
       }
-    });  
+    });
   }
 
   _showCalendar(BuildContext context) async {
-      LoginForm.u.selected = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(1960),
-        lastDate: DateTime(2060),
-      );
-      // homepage.createState().setbookings();
-      setdate(true);
-    }
-  
-  Future<void> _selectTimeSlot() async {
-  switch (await showDialog<Options>(
-    context: context,
-    builder: (BuildContext context) {
-      return SimpleDialog(
-        backgroundColor: Color(0xFF212121),
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
-          ),
-        children: <Widget>[
-          const ListTile(
-            title: Center(
-              child: Text(
-                "Select Time Interval",
-                style: TextStyle(color: Colors.blue, fontSize: 22, fontFamily: 'Helvetica',fontWeight: FontWeight.bold),
-              )
-            )
-          ),
-          SizedBox(height: 10,),
-
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ListTile(
-              leading: const Text(
-                "Start-Time:",
-                style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
-              ),
-              title: Center(
-                child: TextFormField(
-                        validator: (value) {
-                          if (value != null) {
-            
-                          }
-                          if (value!.isEmpty) {
-                            return 'Select Start-Time' ;
-                          }
-
-                          return 'Enter Valid Time';
-                        },
-                        keyboardType: TextInputType.number,
-                        style: const TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
-                          hintStyle: const TextStyle(color: Colors.grey, fontSize: 14, fontFamily: 'Helvetica'),
-                          hintText: "Start-Time",
-                          filled: true,
-                          fillColor: const Color(0xFF424242),
-                          contentPadding: const EdgeInsets.all(15),
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
-                        ),
-                      ),
-              ),
-            ),
-          ),
-          SizedBox(height:10),
-
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ListTile(
-              leading: Padding(
-                padding: const EdgeInsets.only(right: 8.0),
-                child: const Text(
-                  "End-Time:",
-                  style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
-                  
-                ),
-              ),
-              title: Center(
-                child: TextFormField(
-                        validator: (value) {
-                          if (value != null) {
-            
-                          }
-                          if (value!.isEmpty) {
-                            return 'Select End-Time' ;
-                          }
-
-                          return 'Enter Valid Time';
-                        },
-                        keyboardType: TextInputType.number,
-                        style: const TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
-                          hintStyle: const TextStyle(color: Colors.grey, fontSize: 14, fontFamily: 'Helvetica'),
-                          hintText: "End-Time",
-                          filled: true,
-                          fillColor: const Color(0xFF424242),
-                          contentPadding: const EdgeInsets.fromLTRB(17, 15, 17, 15),
-                          
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(7.0)),
-                        ),
-                      ),
-              ),
-            ),
-          ),
-          SizedBox(height:10),
-          ListTile(
-          trailing: SimpleDialogOption(
-            onPressed: () { Navigator.pop(context, Options.OK); },
-            child: const Text(
-              'OK',
-              style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: 'Helvetica')
-              ),
-            // padding: EdgeInsets.fromLTRB(left, top, right, bottom),
-          ),
-          leading: SimpleDialogOption(
-            onPressed: () { Navigator.pop(context, Options.CANCEL); },
-            child: const Text('Cancel',
-            style: TextStyle(color: Colors.red),
-            
-          ),
-          ),
-          ),
-        ],
-      );
-    }
-  )) {
-    case Options.OK:
-      // Let's go.
-      // ...
-    break;
-    case Options.CANCEL:
-      // ...
-    break;
-    case null:
-      // dialog dismissed
-    break;
+    LoginForm.u.selected = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1960),
+      lastDate: DateTime(2060),
+    );
+    // homepage.createState().setbookings();
+    setdate(true);
   }
-}
-void setbookings() async {
+
+  Future<void> _selectTimeSlot() async {
+    switch (await showDialog<Options>(
+        context: context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            backgroundColor: Color(0xFF212121),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(14),
+            ),
+            children: <Widget>[
+              Form(
+                  key: key,
+                  child: Column(children: <Widget>[
+                    const ListTile(
+                        title: Center(
+                            child: Text(
+                      "Select Time Interval",
+                      style: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 22,
+                          fontFamily: 'Helvetica',
+                          fontWeight: FontWeight.bold),
+                    ))),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ListTile(
+                        leading: const Text(
+                          "Start-Time:",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        title: Center(
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value != null) {
+                                if (int.parse(value) < 0 &&
+                                    int.parse(value) > 22) {
+                                  print("INT PARSE WORKING1");
+                                  return 'Please Enter Valid Start Time';
+                                }
+                                //start vary from 0-22,end 0-23
+                                //and start <= end
+                              }
+                              if (value!.isEmpty) {
+                                return 'Select Start-Time';
+                              }
+
+                              return 'Enter Valid Time';
+                            },
+                            keyboardType: TextInputType.number,
+                            controller: select_start_time,
+                            style: const TextStyle(color: Colors.white),
+                            decoration: InputDecoration(
+                              hintStyle: const TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 14,
+                                  fontFamily: 'Helvetica'),
+                              hintText: "Start-Time",
+                              filled: true,
+                              fillColor: const Color(0xFF424242),
+                              contentPadding: const EdgeInsets.all(15),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8.0)),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ListTile(
+                        leading: Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: const Text(
+                            "End-Time:",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        title: Center(
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value != null) {
+                                if (int.parse(value) < 0 &&
+                                    int.parse(value) > 23) {
+                                  print("INT PARSE WORKING ");
+
+                                  return 'Please Enter Valid Start Time';
+                                }
+                                //start vary from 0-22,end 0-23
+                                //and start <= end
+                              }
+                              if (value!.isEmpty) {
+                                return 'Select Start-Time';
+                              }
+
+                              return 'Enter Valid Time';
+                            },
+                            keyboardType: TextInputType.number,
+                            controller: select_end_time,
+                            style: const TextStyle(color: Colors.white),
+                            decoration: InputDecoration(
+                              hintStyle: const TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 14,
+                                  fontFamily: 'Helvetica'),
+                              hintText: "End-Time",
+                              filled: true,
+                              fillColor: const Color(0xFF424242),
+                              contentPadding:
+                                  const EdgeInsets.fromLTRB(17, 15, 17, 15),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(7.0)),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    ListTile(
+                      trailing: SimpleDialogOption(
+                        onPressed: () {
+                          //yaha update krna hai start aur end ko using controllers
+                          setState(() {
+                            if (key.currentState!.validate()) {
+                              print("Hello its me");
+                              //validator
+                            } else {
+                              print("not valid");
+                            }
+                          });
+                          //CALL VALIDATOR HERE
+                          Navigator.pop(context, Options.OK);
+                        },
+                        child: const Text('OK',
+                            style: TextStyle(
+                                color: Colors.green,
+                                fontSize: 14,
+                                fontFamily: 'Helvetica')),
+                        // padding: EdgeInsets.fromLTRB(left, top, right, bottom),
+                      ),
+                      leading: SimpleDialogOption(
+                        onPressed: () {
+                          Navigator.pop(context, Options.CANCEL);
+                        },
+                        child: const Text(
+                          'Cancel',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
+                    ),
+                  ]))
+            ],
+          );
+        })) {
+      case Options.OK:
+
+        // Let's go.
+        // ...
+        break;
+      case Options.CANCEL:
+        // ...
+        break;
+      case null:
+        // dialog dismissed
+        break;
+    }
+  }
+
+  void setbookings() async {
     print("setbookings called");
     var newFormat = DateFormat("yyyy-MM-dd");
     String dt = "";
-    if (LoginForm.u.present != null) dt = newFormat.format(LoginForm.u.present!);
+    if (LoginForm.u.present != null)
+      dt = newFormat.format(LoginForm.u.present!);
 
     curBookingRecord = null;
     curIntervalIndex = -1;
