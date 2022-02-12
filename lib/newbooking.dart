@@ -24,5 +24,5 @@ class newBookings extends State<Booking>{
     );
   }
 
-
+  
 }
