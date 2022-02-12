@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:carpool/LoginForm.dart';
 import 'package:carpool/user.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 enum Options {OK,CANCEL}
@@ -21,14 +22,14 @@ class Booking extends StatefulWidget{
 
 class newBookings extends State<Booking>{
 
-  String date = "Please Select date";
+  String date = "Select date";
   late TimeOfDay start;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(75, 150, 75, 150),
+        padding: const EdgeInsets.fromLTRB(60, 80, 60, 80),
         child: Center(
           child: ListTile(
             tileColor: Colors.grey[900],
@@ -47,7 +48,7 @@ class newBookings extends State<Booking>{
                   tileColor: Color(0xFF212121),
                 ),
                 const SizedBox(
-                  height: 15,
+                  height: 35,
                 ),
                 ListTile(
                   leading: Text(
@@ -83,7 +84,7 @@ class newBookings extends State<Booking>{
                     style: TextStyle(color: Colors.grey[400], fontSize: 18)),
                   ),
                   trailing: IconButton(
-                    onPressed: (){},
+                    onPressed: (){_selectTimeSlot();},
                     icon : Icon(
                       Icons.watch,
                       color: Colors.blue,
@@ -91,7 +92,7 @@ class newBookings extends State<Booking>{
                   ),
                   ),
                   const SizedBox(
-                  height: 15,
+                  height: 85,
                 ),
                 ElevatedButton(
                   onPressed: () {},
@@ -121,7 +122,7 @@ class newBookings extends State<Booking>{
         if (LoginForm.u.selected != null) date = newFormat.format(LoginForm.u.selected!);
       }
       else{
-        date = "Please Select Date";
+        date = "Select Date";
       }
     });  
   }
@@ -142,20 +143,112 @@ class newBookings extends State<Booking>{
     context: context,
     builder: (BuildContext context) {
       return SimpleDialog(
-        title: const Text('Select assignment'),
+        backgroundColor: Color(0xFF212121),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
         children: <Widget>[
-          
+          const ListTile(
+            title: Center(
+              child: Text(
+                "Select Time Interval",
+                style: TextStyle(color: Colors.blue, fontSize: 22, fontFamily: 'Helvetica',fontWeight: FontWeight.bold),
+              )
+            )
+          ),
+          SizedBox(height: 10,),
 
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListTile(
+              leading: const Text(
+                "Start-Time:",
+                style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
+              ),
+              title: Center(
+                child: TextFormField(
+                        validator: (value) {
+                          if (value != null) {
+            
+                          }
+                          if (value!.isEmpty) {
+                            return 'Select Start-Time' ;
+                          }
 
-          SimpleDialogOption(
+                          return 'Enter Valid Time';
+                        },
+                        keyboardType: TextInputType.number,
+                        style: const TextStyle(color: Colors.white),
+                        decoration: InputDecoration(
+                          hintStyle: const TextStyle(color: Colors.grey, fontSize: 14, fontFamily: 'Helvetica'),
+                          hintText: "Start-Time",
+                          filled: true,
+                          fillColor: const Color(0xFF424242),
+                          contentPadding: const EdgeInsets.all(15),
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
+                        ),
+                      ),
+              ),
+            ),
+          ),
+          SizedBox(height:10),
+
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListTile(
+              leading: Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: const Text(
+                  "End-Time:",
+                  style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
+                  
+                ),
+              ),
+              title: Center(
+                child: TextFormField(
+                        validator: (value) {
+                          if (value != null) {
+            
+                          }
+                          if (value!.isEmpty) {
+                            return 'Select End-Time' ;
+                          }
+
+                          return 'Enter Valid Time';
+                        },
+                        keyboardType: TextInputType.number,
+                        style: const TextStyle(color: Colors.white),
+                        decoration: InputDecoration(
+                          hintStyle: const TextStyle(color: Colors.grey, fontSize: 14, fontFamily: 'Helvetica'),
+                          hintText: "End-Time",
+                          filled: true,
+                          fillColor: const Color(0xFF424242),
+                          contentPadding: const EdgeInsets.fromLTRB(17, 15, 17, 15),
+                          
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(7.0)),
+                        ),
+                      ),
+              ),
+            ),
+          ),
+          SizedBox(height:10),
+          ListTile(
+          trailing: SimpleDialogOption(
             onPressed: () { Navigator.pop(context, Options.OK); },
-            child: const Text('OK'),
+            child: const Text(
+              'OK',
+              style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: 'Helvetica')
+              ),
             // padding: EdgeInsets.fromLTRB(left, top, right, bottom),
           ),
-          // SimpleDialogOption(
-          //   onPressed: () { Navigator.pop(context, Options.CANCEL); },
-          //   child: const Text('State department'),
-          // ),
+          leading: SimpleDialogOption(
+            onPressed: () { Navigator.pop(context, Options.CANCEL); },
+            child: const Text('Cancel',
+            style: TextStyle(color: Colors.red),
+            
+          ),
+          ),
+          ),
         ],
       );
     }

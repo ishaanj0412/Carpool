@@ -243,26 +243,6 @@ class _AddBookingState extends State<AddBooking> {
         ),
       );
     }
-    // for (int i = 0; i < carpools.length; i++) {
-    //   String name = carpools[i];
-    //   widgetlist.add(
-    //     ListTile(
-    //       leading: const Icon(
-    //         Icons.person,
-    //         color: Colors.blue,
-    //         size: 22,
-    //       ),
-    //       title: Text(
-    //         name,
-    //         style: const TextStyle(color: Colors.white, fontFamily: 'Helvetica', fontSize: 15),
-    //       ),
-    //       tileColor: Colors.black,
-    //       shape: RoundedRectangleBorder(
-    //         borderRadius: BorderRadius.circular(12),
-    //       ),
-    //     ),
-    //   );
-    // }
     if (value.isEmpty) {
       temp = false;
       widget.widgetlist.add(
