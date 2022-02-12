@@ -72,42 +72,43 @@ class OTP extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () async {
                           //removed otp for easy debug
-                          //bool flag = await verifyOTP(emailidcontroller, _otpcontroller, context);
-                          bool flag = true;
+                          bool flag = await verifyOTP(
+                              emailidcontroller, _otpcontroller, context);
+                          //bool flag = true;
                           if (flag) {
                             Future<bool> flag1 = DataBaseService.exists(
                                 emailidcontroller.text,
                                 rollnumbercontroller.text);
                             if (kDebugMode) {
-                              LoginForm.u = await User(
-                                  emailId: "Karanjit.Saha@iiitb.ac.in",
-                                  rollNumber: "IMT2020003",
-                                  dateRecords: []);
-                              LoginForm.u
-                                  .addBooking(DateTime(2022, 1, 4), 7, 8);
-                              LoginForm.u
-                                  .addBooking(DateTime(2022, 1, 4), 1, 2);
-                              await LoginForm.u.update();
+                              // LoginForm.u = await User(
+                              //     emailId: "Karanjit.Saha@iiitb.ac.in",
+                              //     rollNumber: "IMT2020003",
+                              //     dateRecords: []);
+                              // LoginForm.u
+                              //     .addBooking(DateTime(2022, 1, 4), 7, 8);
+                              // LoginForm.u
+                              //     .addBooking(DateTime(2022, 1, 4), 1, 2);
+                              // await LoginForm.u.update();
 
-                              LoginForm.u = await User(
-                                  emailId: "Monjoy.Choudhury@iiitb.ac.in",
-                                  rollNumber: "IMT2020502",
-                                  dateRecords: []);
-                              LoginForm.u
-                                  .addBooking(DateTime(2022, 1, 4), 7, 8);
-                              LoginForm.u
-                                  .addBooking(DateTime(2022, 1, 4), 1, 4);
-                              await LoginForm.u.update();
+                              // LoginForm.u = await User(
+                              //     emailId: "Monjoy.Choudhury@iiitb.ac.in",
+                              //     rollNumber: "IMT2020502",
+                              //     dateRecords: []);
+                              // LoginForm.u
+                              //     .addBooking(DateTime(2022, 1, 4), 7, 8);
+                              // LoginForm.u
+                              //     .addBooking(DateTime(2022, 1, 4), 1, 4);
+                              // await LoginForm.u.update();
 
-                              LoginForm.u = await User(
-                                  emailId: "Random.lmao@iiitb.ac.in",
-                                  rollNumber: "IMT2020420",
-                                  dateRecords: []);
-                              LoginForm.u
-                                  .addBooking(DateTime(2022, 1, 4), 3, 5);
-                              LoginForm.u
-                                  .addBooking(DateTime(2022, 1, 4), 6, 9);
-                              await LoginForm.u.update();
+                              // LoginForm.u = await User(
+                              //     emailId: "Random.lmao@iiitb.ac.in",
+                              //     rollNumber: "IMT2020420",
+                              //     dateRecords: []);
+                              // LoginForm.u
+                              //     .addBooking(DateTime(2022, 1, 4), 3, 5);
+                              // LoginForm.u
+                              //     .addBooking(DateTime(2022, 1, 4), 6, 9);
+                              // await LoginForm.u.update();
 
                               LoginForm.u = await User(
                                   emailId: emailidcontroller.text,
@@ -119,18 +120,18 @@ class OTP extends StatelessWidget {
                                   .addBooking(DateTime(2022, 1, 4), 9, 10);
                               await LoginForm.u.update();
 
-                              var xD = await LoginForm.u.getBookingMatching(
-                                  LoginForm.u.bookingRecords.first);
-                              print("hewwo");
+                              // var xD = await LoginForm.u.getBookingMatching(
+                              //     LoginForm.u.bookingRecords.first);
+                              // print("hewwo");
 
-                              LoginForm.u.deleteBooking(
-                                  LoginForm.u.bookingRecords.first,
-                                  LoginForm
-                                      .u.bookingRecords.first.intervals.first);
-                              LoginForm.u.deleteBooking(
-                                  LoginForm.u.bookingRecords.first,
-                                  LoginForm
-                                      .u.bookingRecords.first.intervals.first);
+                              // LoginForm.u.deleteBooking(
+                              //     LoginForm.u.bookingRecords.first,
+                              //     LoginForm
+                              //         .u.bookingRecords.first.intervals.first);
+                              // LoginForm.u.deleteBooking(
+                              //     LoginForm.u.bookingRecords.first,
+                              //     LoginForm
+                              //         .u.bookingRecords.first.intervals.first);
                             } else {
                               if (await flag1) {
                                 //get existing user
