@@ -50,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: Colors.black,
       body: Stack(
         children: <Widget>[
-          TabNavigator(),
+          //TabNavigator(),
           LoginForm(
               form_key: form_key,
               orgid: orgid,

@@ -57,7 +57,8 @@ class BookingRecord {
 class User {
   String emailId;
   String rollNumber;
-  late List<DateTime> dateRecords; // All the records based on date of the user only
+  late List<DateTime>
+      dateRecords; // All the records based on date of the user only
   late List<BookingRecord> bookingRecords; // All the booking record
   //Map travelTime = <DateTime, IntervalTree>{};
   DateTime? present, selected;
@@ -121,6 +122,7 @@ class User {
     if (!dateRecords.contains(date)) {
       dateRecords.add(date);
     }
+    update();
     // TODO: add it to apropriate Date Recordfactory User.fromJson(Map<String, dynamic> data) {
   }
 
@@ -156,7 +158,8 @@ class User {
     dateRecords.forEach((element) async {
       var newFormat = DateFormat("yyyy-MM-dd");
       String dt = newFormat.format(element);
-      List<BookingRecord> arr = await DataBaseService.getBookingRecordsbyDate(dt); // lets say we got an array
+      List<BookingRecord> arr = await DataBaseService.getBookingRecordsbyDate(
+          dt); // lets say we got an array
       bool flag = false;
       late BookingRecord reqRecord;
       arr.forEach((element) {
@@ -219,12 +222,19 @@ class User {
     dateRecords.forEach((element) {
       dateRec.add(newFormat.format(element));
     });
-    Map<String, dynamic> json = {'emailid': emailId, 'rollnum': rollNumber, 'dates': dateRec};
+    Map<String, dynamic> json = {
+      'emailid': emailId,
+      'rollnum': rollNumber,
+      'dates': dateRec
+    };
     return json;
   }
 
-  Future<List<BookingRecord>> getBookingMatching(BookingRecord br) async {
-    List<BookingRecord> brs = await DataBaseService.getBookingRecordsbyDate(br.date);
+  Future<List<BookingRecord>> getBookingMatching(BookingRecord? br) async {
+    if (br == null) return [];
+
+    List<BookingRecord> brs =
+        await DataBaseService.getBookingRecordsbyDate(br.date);
     brs.remove(br);
     List<BookingRecord> ret = [];
     //br apna hee hai bhai
@@ -235,7 +245,8 @@ class User {
         for (var element in temp) {
           if (intersects(element, interval)) {
             // temporary other users booking records
-            BookingRecord temp_br = BookingRecord(bookingRecord.uid, bookingRecord.date);
+            BookingRecord temp_br =
+                BookingRecord(bookingRecord.uid, bookingRecord.date);
             temp_br.addInterval(element.intersection(interval)!);
             ret.add(temp_br);
             break;
@@ -253,7 +264,8 @@ class User {
     List<DateTime> dateRecords = [];
     temp.forEach((element) => {dateRecords.add(DateTime.parse(element))});
 
-    return User(emailId: emailId, rollNumber: rollNumber, dateRecords: dateRecords);
+    return User(
+        emailId: emailId, rollNumber: rollNumber, dateRecords: dateRecords);
   }
 
   static bool intersects(Interval i1, Interval i2) {

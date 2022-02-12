@@ -25,14 +25,15 @@ class newBookings extends State<Booking> {
   late BookingRecord? curBookingRecord;
   late int curIntervalIndex;
   String date = "Select date";
-  late TimeOfDay start = TimeOfDay.now();
-  late TimeOfDay end = TimeOfDay.now();
+  late String startime, endtime;
+  String interval = "Select Time";
   late final TextEditingController select_start_time = TextEditingController();
   late final TextEditingController select_end_time = TextEditingController();
   final GlobalKey<FormState> key = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    //settime(false);
     return Scaffold(
         backgroundColor: Colors.black,
         body: Padding(
@@ -94,11 +95,7 @@ class newBookings extends State<Booking> {
                                 fontWeight: FontWeight.bold),
                           ),
                           title: Center(
-                            child: Text(
-                                start.hour.toString() +
-                                    ":00 to " +
-                                    end.hour.toString() +
-                                    ":00",
+                            child: Text(interval,
                                 style: TextStyle(
                                     color: Colors.grey[400], fontSize: 18)),
                           ),
@@ -116,13 +113,14 @@ class newBookings extends State<Booking> {
                         ),
                         ElevatedButton(
                           onPressed: () {
+                            print(startime + " " + endtime);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => AddBooking(
-                                        "11-02-2022",
-                                        "2:00",
-                                        "3:00",
+                                        date,
+                                        startime,
+                                        endtime,
                                         curIntervalIndex,
                                         curBookingRecord)));
                           },
@@ -146,7 +144,7 @@ class newBookings extends State<Booking> {
     setState(() {
       if (val) {
         print("setdate called");
-        var newFormat = DateFormat("dd-MM-yyyy");
+        var newFormat = DateFormat("yyyy-MM-dd");
         if (LoginForm.u.selected != null)
           date = newFormat.format(LoginForm.u.selected!);
       } else {
@@ -155,14 +153,29 @@ class newBookings extends State<Booking> {
     });
   }
 
+  void settime(bool val) async {
+    setState(() {
+      if (val) {
+        print("settime called");
+        startime = select_start_time.text;
+        endtime = select_end_time.text;
+        interval = startime + ":00 hrs to " + endtime + ":00 hrs";
+      } else {
+        startime = "";
+        endtime = "";
+        interval = "Select Time";
+      }
+    });
+  }
+
   _showCalendar(BuildContext context) async {
     LoginForm.u.selected = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(1960),
+      firstDate: DateTime(2022),
       lastDate: DateTime(2060),
     );
-    // homepage.createState().setbookings();
+    setbookings();
     setdate(true);
   }
 
@@ -206,10 +219,11 @@ class newBookings extends State<Booking> {
                           child: TextFormField(
                             validator: (value) {
                               if (value != null) {
-                                if (int.parse(value) < 0 &&
+                                if (int.parse(value) < 0 ||
                                     int.parse(value) > 22) {
-                                  print("INT PARSE WORKING1");
                                   return 'Please Enter Valid Start Time';
+                                } else {
+                                  return null;
                                 }
                                 //start vary from 0-22,end 0-23
                                 //and start <= end
@@ -218,7 +232,7 @@ class newBookings extends State<Booking> {
                                 return 'Select Start-Time';
                               }
 
-                              return 'Enter Valid Time';
+                              return 'Enter Valid Time1';
                             },
                             keyboardType: TextInputType.number,
                             controller: select_start_time,
@@ -257,11 +271,11 @@ class newBookings extends State<Booking> {
                           child: TextFormField(
                             validator: (value) {
                               if (value != null) {
-                                if (int.parse(value) < 0 &&
+                                if (int.parse(value) < 0 ||
                                     int.parse(value) > 23) {
-                                  print("INT PARSE WORKING ");
-
                                   return 'Please Enter Valid Start Time';
+                                } else {
+                                  return null;
                                 }
                                 //start vary from 0-22,end 0-23
                                 //and start <= end
@@ -298,15 +312,28 @@ class newBookings extends State<Booking> {
                         onPressed: () {
                           //yaha update krna hai start aur end ko using controllers
                           setState(() {
-                            if (key.currentState!.validate()) {
+                            bool f = false;
+                            if (int.parse(select_start_time.text) <
+                                int.parse(select_end_time.text)) {
+                              f = true;
+                            }
+
+                            if (key.currentState!.validate() && f) {
                               print("Hello its me");
+                              settime(true);
                               //validator
+                            } else if (!f) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text("Please Enter Valid Time"),
+                              ));
                             } else {
                               print("not valid");
                             }
+                            Navigator.pop(context, Options.OK);
                           });
                           //CALL VALIDATOR HERE
-                          Navigator.pop(context, Options.OK);
+                          //Navigator.pop(context, Options.OK);
                         },
                         child: const Text('OK',
                             style: TextStyle(
@@ -330,9 +357,9 @@ class newBookings extends State<Booking> {
           );
         })) {
       case Options.OK:
-
         // Let's go.
         // ...
+
         break;
       case Options.CANCEL:
         // ...
@@ -347,8 +374,8 @@ class newBookings extends State<Booking> {
     print("setbookings called");
     var newFormat = DateFormat("yyyy-MM-dd");
     String dt = "";
-    if (LoginForm.u.present != null)
-      dt = newFormat.format(LoginForm.u.present!);
+    if (LoginForm.u.selected != null)
+      dt = newFormat.format(LoginForm.u.selected!);
 
     curBookingRecord = null;
     curIntervalIndex = -1;

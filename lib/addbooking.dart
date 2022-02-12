@@ -6,10 +6,11 @@ import 'LoginForm.dart';
 class AddBooking extends StatefulWidget {
   late List<Widget> widgetlist;
 
-  AddBooking(this.date, this.starttime, this.endtime, this.curIntervalIndex, BookingRecord? this.br,
+  AddBooking(this.date, this.starttime, this.endtime, this.curIntervalIndex,
+      BookingRecord? this.br,
       {Key? key})
       : super(key: key) {
-    brs = LoginForm.u.getBookingMatching(br!);
+    brs = LoginForm.u.getBookingMatching(br);
     widgetlist = [
       const ListTile(
         title: Center(
@@ -131,8 +132,8 @@ class _AddBookingState extends State<AddBooking> {
         backgroundColor: Colors.black,
         shape: const Border(
             bottom: BorderSide(
-              color: Color(0xFF424242),
-            )),
+          color: Color(0xFF424242),
+        )),
       ),
       backgroundColor: Colors.black,
       floatingActionButton: FloatingActionButton(
@@ -161,10 +162,13 @@ class _AddBookingState extends State<AddBooking> {
                     TextButton(
                       // FlatButton widget is used to make a text to work like a button
                       onPressed: () {
-                        //DB deletion strategy same as home.dart
+                        //ADD BOOKING DATABASE
+                        LoginForm.u.addBooking(
+                            DateTime.parse(widget.date), // YYYY-MM-DD
+                            int.parse(widget.starttime),
+                            int.parse(widget.endtime));
                         Navigator.pop(context);
                         Navigator.pop(context);
-                        // TODO: add delete
                       }, // function used to perform after pressing the button
                       child: const Text(
                         'YES',
@@ -209,7 +213,6 @@ class _AddBookingState extends State<AddBooking> {
               );
             }
           }),
-      
     );
   }
 
