@@ -313,6 +313,7 @@ class newBookings extends State<Booking> {
 
                               if (f && key.currentState!.validate()) {
                                 settime(true);
+                                Navigator.pop(context, Options.OK);
                                 //validator
                               } else if (!f || !key.currentState!.validate()) {
                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
