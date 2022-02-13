@@ -60,9 +60,9 @@ class OTP extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () async {
                           //removed otp for easy debug
-                          bool flag = await verifyOTP(
-                          emailidcontroller, _otpcontroller, context);
-                          // bool flag = true;
+                          //bool flag = true;
+                          bool flag = await verifyOTP(emailidcontroller, _otpcontroller, context);
+                          //bool flag = true;
                           if (flag) {
                             Future<bool> flag1 = DataBaseService.exists(emailidcontroller.text);
                             if (await flag1) {

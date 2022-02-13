@@ -70,7 +70,7 @@ class newBookings extends State<Booking> {
                           tileColor: Color(0xFF212121),
                         ),
                         SizedBox(
-                          height: 0.12 * height,
+                          height: 0.09 * height,
                         ),
                         ListTile(
                           leading: Text(
@@ -90,7 +90,7 @@ class newBookings extends State<Booking> {
                               )),
                         ),
                         SizedBox(
-                          height: 0.04 * height,
+                          height: 0.02 * height,
                         ),
                         ListTile(
                           leading: Text(
@@ -110,7 +110,7 @@ class newBookings extends State<Booking> {
                               )),
                         ),
                         SizedBox(
-                          height: 0.12 * height,
+                          height: 0.09 * height,
                         ),
                         Padding(
                           padding: EdgeInsets.only(bottom: 0.05 * height),
@@ -314,13 +314,13 @@ class newBookings extends State<Booking> {
                               if (f && key.currentState!.validate()) {
                                 settime(true);
                                 //validator
-                              } else if (!f) {
+                              } else if (!f || !key.currentState!.validate()) {
                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                   content: Text("Please Enter Valid Time"),
                                 ));
                               } else {
+                                Navigator.pop(context, Options.OK);
                               }
-                              Navigator.pop(context, Options.OK);
                             }
                           });
                           //CALL VALIDATOR HERE
