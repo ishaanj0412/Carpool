@@ -139,10 +139,10 @@ class Homepage extends State<Home> {
 
   bool bookings() {
     late double height, width;
-    if(MediaQuery.maybeOf(context)!=null) {
+    if (MediaQuery.maybeOf(context) != null) {
       height = MediaQuery.maybeOf(context)!.size.height;
     }
-    if(MediaQuery.maybeOf(context)!=null) {
+    if (MediaQuery.maybeOf(context) != null) {
       width = MediaQuery.maybeOf(context)!.size.width;
     }
     bool temp = false;
@@ -156,7 +156,7 @@ class Homepage extends State<Home> {
           print(0);
           widgetlist = [
             SizedBox(
-              height: 0.02*height,
+              height: 0.02 * height,
             ),
             Center(
                 child: RichText(
@@ -173,7 +173,7 @@ class Homepage extends State<Home> {
               ),
             )),
             SizedBox(
-              height: 0.03*height,
+              height: 0.03 * height,
             ),
           ];
 
@@ -223,7 +223,7 @@ class Homepage extends State<Home> {
         print(1);
         widgetlist = [
           SizedBox(
-            height: 0.02*height,
+            height: 0.02 * height,
           ),
           Center(
               child: RichText(
@@ -240,7 +240,7 @@ class Homepage extends State<Home> {
             ),
           )),
           SizedBox(
-            height: 0.34*height,
+            height: 0.34 * height,
           ),
           const Center(
             child: Text(
@@ -271,7 +271,7 @@ class Homepage extends State<Home> {
 
     if (LoginForm.u == null) {
       LoginForm.u = await DataBaseService.getData(LoginForm.email!);
-      LoginForm.u!.fetchBookingRecord();
+      await LoginForm.u!.fetchBookingRecord();
     }
     curUser = LoginForm.u;
 
