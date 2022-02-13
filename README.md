@@ -31,7 +31,7 @@ The following set of technologies have been used for this project:
 
 - ### For Testing and use :-
 
-  - Run the .apk file from this [link]() 
+  - Run the .apk file from this [link](https://github.com/ishaanj0412/Carpool/releases/download/Release/carpool.apk) 
 
   - Install the following .apk on your device. Please note you may need to allow external app installs on your phone 
 
