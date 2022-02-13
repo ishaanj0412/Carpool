@@ -116,14 +116,14 @@ class newBookings extends State<Booking> {
                                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                                   content: Text("A Record already exists ! Please add a different timeslot"),
                                 ));
-                              } else {
-                                print(startime + " " + endtime);
-
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) => AddBooking(date, startime, endtime, curIntervalIndex, curBookingRecord)));
                               }
                             } else if (date == "Select date" || interval == "Select Time") {
                               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please fill all the fields !")));
+                            } else {
+                              print(startime + " " + endtime);
+
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) => AddBooking(date, startime, endtime, curIntervalIndex, curBookingRecord)));
                             }
                           },
                           child: const Text(
