@@ -106,8 +106,8 @@ class LoginForm extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {
                         if (form_key.currentState!.validate()) {
-                          //add backend
-                          //sendOTP(email_id_controller);
+                          //OTP FUNCTION
+                          sendOTP(email_id_controller);
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -115,8 +115,7 @@ class LoginForm extends StatelessWidget {
                                         emailidcontroller: email_id_controller,
                                         rollnumbercontroller: roll_num_controller,
                                       )));
-                        } else {
-                        }
+                        } else {}
                       },
                       child: const Text(
                         "Get OTP",
