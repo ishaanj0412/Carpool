@@ -63,6 +63,7 @@ class User {
   late List<BookingRecord> bookingRecords; // All the booking record
   //Map travelTime = <DateTime, IntervalTree>{};
   DateTime? present, selected;
+  late bool isfetched;
 
   void addUserToDatabase(String emailId, rollNumber) {
     this.emailId = emailId;
@@ -77,6 +78,8 @@ class User {
     bookingRecords = [];
     present = DateTime.now();
     selected = DateTime.now();
+
+    isfetched = false;
     // TODO: fetch from database the dateRecords which will be stored for a old user
 
     // TODO: then fetch all the bookingRecord for the person (Only upcoming ones)
@@ -157,22 +160,24 @@ class User {
   }
 
   Future<bool> fetchBookingRecord() async {
-    dateRecords.forEach((element) async {
+    if (isfetched) return true;
+    await Future.forEach<DateTime>(dateRecords, (element) async {
       var newFormat = DateFormat("yyyy-MM-dd");
       String dt = newFormat.format(element);
       List<BookingRecord> arr = await DataBaseService.getBookingRecordsbyDate(dt); // lets say we got an array
       bool flag = false;
       late BookingRecord reqRecord;
-      arr.forEach((element) {
+      for (var element in arr) {
         if (element.uid == emailId) {
           flag = true;
           reqRecord = element;
         }
-      });
+      }
       if (flag) {
         bookingRecords.add(reqRecord);
       }
     });
+    isfetched = true;
     return true;
   }
 
