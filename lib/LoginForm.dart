@@ -107,8 +107,6 @@ class LoginForm extends StatelessWidget {
                       onPressed: () {
                         if (form_key.currentState!.validate()) {
                           //add backend
-
-                          print("Validated");
                           //sendOTP(email_id_controller);
                           Navigator.push(
                               context,
@@ -118,7 +116,6 @@ class LoginForm extends StatelessWidget {
                                         rollnumbercontroller: roll_num_controller,
                                       )));
                         } else {
-                          print("not valid");
                         }
                       },
                       child: const Text(
