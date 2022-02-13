@@ -21,7 +21,11 @@ class BookingDetails extends StatefulWidget {
         title: Center(
           child: Text(
             "Details",
-            style: TextStyle(color: Colors.blue, fontFamily: 'Helvetica', fontSize: 22, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                color: Colors.blue,
+                fontFamily: 'Helvetica',
+                fontSize: 22,
+                fontWeight: FontWeight.bold),
           ),
         ),
         tileColor: Colors.black,
@@ -34,7 +38,8 @@ class BookingDetails extends StatefulWidget {
         ),
         title: Text(
           "Date: $date",
-          style: const TextStyle(color: Colors.white, fontFamily: 'Helvetica', fontSize: 15),
+          style: const TextStyle(
+              color: Colors.white, fontFamily: 'Helvetica', fontSize: 15),
         ),
         tileColor: Colors.black,
       ),
@@ -46,7 +51,8 @@ class BookingDetails extends StatefulWidget {
         ),
         title: Text(
           "Time Slot: $starttime Hours to $endtime Hours",
-          style: const TextStyle(color: Colors.white, fontFamily: 'Helvetica', fontSize: 15),
+          style: const TextStyle(
+              color: Colors.white, fontFamily: 'Helvetica', fontSize: 15),
         ),
         tileColor: Colors.black,
       ),
@@ -54,7 +60,11 @@ class BookingDetails extends StatefulWidget {
         title: Center(
           child: Text(
             "Available Carpools",
-            style: TextStyle(color: Colors.blue, fontFamily: 'Helvetica', fontSize: 22, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                color: Colors.blue,
+                fontFamily: 'Helvetica',
+                fontSize: 22,
+                fontWeight: FontWeight.bold),
           ),
         ),
         tileColor: Colors.black,
@@ -75,7 +85,16 @@ class BookingDetails extends StatefulWidget {
 
 class _BookingDetailsState extends State<BookingDetails> {
   // late List<BookingRecord> brs;
-  List<String> carpools = ["Ishaan Jalan", "Rudransh Dixit", "hewwo", "manda", "ramesh", "mukesh", "sukesh", "nilesh"];
+  List<String> carpools = [
+    "Ishaan Jalan",
+    "Rudransh Dixit",
+    "hewwo",
+    "manda",
+    "ramesh",
+    "mukesh",
+    "sukesh",
+    "nilesh"
+  ];
 
   // TODO: add getBookingData..
   @override
@@ -154,8 +173,10 @@ class _BookingDetailsState extends State<BookingDetails> {
                           Navigator.pop(context);
                           Navigator.pop(context);
                           // TODO: add delete
-                          if (widget.curIntervalIndex != -1 && widget.br != null) {
-                            LoginForm.u!.deleteBooking(widget.br!, widget.br!.intervals[widget.curIntervalIndex]);
+                          if (widget.curIntervalIndex != -1 &&
+                              widget.br != null) {
+                            LoginForm.u!.deleteBooking(widget.br!,
+                                widget.br!.intervals[widget.curIntervalIndex]);
                           }
                           widget.curIntervalIndex = -1;
                           Home.homep.bookings();
@@ -230,7 +251,8 @@ class _BookingDetailsState extends State<BookingDetails> {
           ),
           title: Text(
             name,
-            style: const TextStyle(color: Colors.white, fontFamily: 'Helvetica', fontSize: 15),
+            style: const TextStyle(
+                color: Colors.white, fontFamily: 'Helvetica', fontSize: 15),
           ),
           tileColor: Colors.black,
           shape: RoundedRectangleBorder(
@@ -266,7 +288,8 @@ class _BookingDetailsState extends State<BookingDetails> {
           title: Center(
             child: Text(
               "Sorry, there are no carpools available in your time slot",
-              style: TextStyle(color: Colors.white, fontFamily: 'Helvetica', fontSize: 15),
+              style: TextStyle(
+                  color: Colors.white, fontFamily: 'Helvetica', fontSize: 15),
             ),
           ),
           tileColor: Colors.black,

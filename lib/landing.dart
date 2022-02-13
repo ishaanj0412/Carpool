@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:carpool/user.dart';
 import 'package:flutter/material.dart';
 import 'package:carpool/home.dart';
 import 'package:carpool/newbooking.dart';
@@ -98,7 +99,9 @@ class Landing extends State<TabNavigator> {
                 type: BottomNavigationBarType.shifting,
                 currentIndex: state,
                 onTap: (index) {
-                  pageController.animateToPage(index, duration: const Duration(milliseconds: 500), curve: Curves.ease);
+                  pageController.animateToPage(index,
+                      duration: const Duration(milliseconds: 500),
+                      curve: Curves.ease);
                 },
                 backgroundColor: Colors.black,
               ),
@@ -150,6 +153,60 @@ class Landing extends State<TabNavigator> {
     List<Widget>? temp;
     if (state == 0) {
       temp = <Widget>[
+        IconButton(
+            icon: const Icon(
+              Icons.logout_outlined,
+              color: Colors.red,
+            ),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AlertDialog(
+                      backgroundColor: Color(0xFF212121),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      title: const Center(
+                        child: Text(
+                          'Logout',
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                        ),
+                      ), // To display the title it is optional
+                      content: const Text(
+                        'Are you sure you want to logout?',
+                        style: TextStyle(color: Colors.white),
+                      ), // Message which will be pop up on the screen
+                      // Action widget which will provide the user to acknowledge the choice
+                      actions: [
+                        TextButton(
+                          // FlatButton widget is used to make a text to work like a button
+                          onPressed: () {
+                            User.storeUser("");
+                            LoginForm.u = null;
+                            SystemNavigator.pop();
+                            //DB deletion strategy same as home.dart
+                          }, // function used to perform after pressing the button
+                          child: const Text(
+                            'YES',
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            'NO',
+                            style: TextStyle(color: Colors.green),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )); // User.storeUser("");
+              // LoginForm.u = null;
+              // SystemNavigator.pop();
+            }),
         IconButton(
           icon: const Icon(
             Icons.date_range,
