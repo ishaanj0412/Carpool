@@ -48,7 +48,6 @@ class newBookings extends State<Booking> {
     if (MediaQuery.maybeOf(context) != null) {
       width = MediaQuery.maybeOf(context)!.size.width;
     }
-    // print(width); print(height);
     return Scaffold(
         backgroundColor: Colors.black,
         body: Padding(
@@ -132,7 +131,6 @@ class newBookings extends State<Booking> {
                                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please fill all the fields !")));
                                 return;
                               }
-                              print(startime + " " + endtime);
 
                               Navigator.push(context,
                                   MaterialPageRoute(builder: (context) => AddBooking(date, startime, endtime, curIntervalIndex, curBookingRecord)));
@@ -156,7 +154,6 @@ class newBookings extends State<Booking> {
   void setdate(bool val) async {
     setState(() {
       if (val) {
-        print("setdate called");
         var newFormat = DateFormat("yyyy-MM-dd");
         if (LoginForm.u!.selected != null) date = newFormat.format(LoginForm.u!.selected!);
       } else {
@@ -168,7 +165,6 @@ class newBookings extends State<Booking> {
   void settime(bool val) async {
     setState(() {
       if (val) {
-        print("settime called");
         startime = select_start_time.text;
         endtime = select_end_time.text;
         interval = startime + ":00 hrs to " + endtime + ":00 hrs";
@@ -316,7 +312,6 @@ class newBookings extends State<Booking> {
                               }
 
                               if (f && key.currentState!.validate()) {
-                                print("Hello its me");
                                 settime(true);
                                 //validator
                               } else if (!f) {
@@ -324,7 +319,6 @@ class newBookings extends State<Booking> {
                                   content: Text("Please Enter Valid Time"),
                                 ));
                               } else {
-                                print("not valid");
                               }
                               Navigator.pop(context, Options.OK);
                             }
@@ -364,7 +358,6 @@ class newBookings extends State<Booking> {
   }
 
   void setbookings() async {
-    print("setbookings called");
     var newFormat = DateFormat("yyyy-MM-dd");
     String dt = "";
     if (LoginForm.u!.selected != null) dt = newFormat.format(LoginForm.u!.selected!);

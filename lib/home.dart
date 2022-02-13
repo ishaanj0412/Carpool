@@ -13,7 +13,6 @@ class Home extends StatefulWidget {
   static Homepage homep = Homepage();
   @override
   Homepage createState() {
-    print("Createstate called");
     homep = new Homepage();
     return homep;
   }
@@ -61,10 +60,13 @@ class Homepage extends State<Home> {
             children: <Widget>[
               SimpleDialogOption(
                 onPressed: () {
-                  starttime = curBookingRecord!.intervals[curIntervalIndex].start.toString() + ":00";
-                  print(starttime);
-                  endtime = curBookingRecord!.intervals[curIntervalIndex].end.toString() + ":00";
-                  print(endtime);
+                  starttime = curBookingRecord!
+                          .intervals[curIntervalIndex].start
+                          .toString() +
+                      ":00";
+                  endtime = curBookingRecord!.intervals[curIntervalIndex].end
+                          .toString() +
+                      ":00";
                   Navigator.pop(context, Options.ShowDetails);
                 },
                 child: const ListTile(
@@ -104,19 +106,21 @@ class Homepage extends State<Home> {
       case Options.ShowDetails:
         // Let's go.
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => BookingDetails(date, starttime, endtime, curIntervalIndex, curBookingRecord)));
+            context,
+            MaterialPageRoute(
+                builder: (context) => BookingDetails(date, starttime, endtime,
+                    curIntervalIndex, curBookingRecord)));
         // TODO: connect with backend
-        print("show details clicked");
         break;
       case Options.Remove:
         //remove stuff from databse
         //call build ui
         if (curIntervalIndex != -1) {
-          LoginForm.u!.deleteBooking(curBookingRecord!, curBookingRecord!.intervals[curIntervalIndex]);
+          LoginForm.u!.deleteBooking(
+              curBookingRecord!, curBookingRecord!.intervals[curIntervalIndex]);
         }
         curIntervalIndex = -1;
 
-        print("remove clicked");
         break;
     }
   }
@@ -148,12 +152,12 @@ class Homepage extends State<Home> {
     bool temp = false;
     String dt = " ";
     var newFormat = DateFormat("yyyy-MM-dd");
-    if (LoginForm.u!.present != null) dt = newFormat.format(LoginForm.u!.present!);
+    if (LoginForm.u!.present != null)
+      dt = newFormat.format(LoginForm.u!.present!);
     setState(() {
       if (curBookingRecord != null) {
         if (curBookingRecord!.intervals.isNotEmpty) {
           temp = true;
-          print(0);
           widgetlist = [
             SizedBox(
               height: 0.02 * height,
@@ -163,7 +167,8 @@ class Homepage extends State<Home> {
               text: TextSpan(
                 children: [
                   const WidgetSpan(
-                    child: Icon(Icons.calendar_today_rounded, size: 22, color: Colors.blue),
+                    child: Icon(Icons.calendar_today_rounded,
+                        size: 22, color: Colors.blue),
                   ),
                   TextSpan(
                     text: " $dt",
@@ -178,8 +183,10 @@ class Homepage extends State<Home> {
           ];
 
           for (int i = 0; i < curBookingRecord!.intervals.length; i++) {
-            String starttime = curBookingRecord!.intervals[i].start.toString() + ":00";
-            String endtime = curBookingRecord!.intervals[i].end.toString() + ":00";
+            String starttime =
+                curBookingRecord!.intervals[i].start.toString() + ":00";
+            String endtime =
+                curBookingRecord!.intervals[i].end.toString() + ":00";
             widgetlist.add(Container(
               margin: const EdgeInsets.all(5),
               child: Card(
@@ -220,7 +227,6 @@ class Homepage extends State<Home> {
         }
       } else {
         temp = false;
-        print(1);
         widgetlist = [
           SizedBox(
             height: 0.02 * height,
@@ -230,7 +236,8 @@ class Homepage extends State<Home> {
             text: TextSpan(
               children: [
                 const WidgetSpan(
-                  child: Icon(Icons.calendar_today_rounded, size: 22, color: Colors.blue),
+                  child: Icon(Icons.calendar_today_rounded,
+                      size: 22, color: Colors.blue),
                 ),
                 TextSpan(
                   text: " $dt",
@@ -262,7 +269,6 @@ class Homepage extends State<Home> {
   }
 
   Future<bool> setbookings() async {
-    print("setbookings called");
     var newFormat = DateFormat("yyyy-MM-dd");
     String dt = "";
 
@@ -275,7 +281,8 @@ class Homepage extends State<Home> {
     }
     curUser = LoginForm.u;
 
-    if (LoginForm.u!.present != null) dt = newFormat.format(LoginForm.u!.present!);
+    if (LoginForm.u!.present != null)
+      dt = newFormat.format(LoginForm.u!.present!);
     date = dt;
     // I have preset Date, there might be booking on that day or not
     // User -> BookingRecord
