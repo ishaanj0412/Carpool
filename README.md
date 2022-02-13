@@ -12,31 +12,17 @@ We decided to help people to carpool by creating a mobile application which serv
 
 The following set of technologies have been used for this project:
 
-**1) Firebase** (for cloud storage and backend)
+**1) Firebase** (for cloud storage/database)
 
-**2) Flutter** (UI)
+**2) Flutter** (UI and platform)
 
-**3) Dart** (Interfacing the UI and backend)
+**3) Dart** (Interfacing the UI and database)
 
 ## Screenshots  :-
 
-<img src="/home/mons/Desktop/flutter-carpool/v8/Carpool/Readme_pics/WhatsApp Image 2022-02-13 at 11.38.50 AM.jpeg" alt="Login" style="zoom:33%;" /> <img src="/home/mons/Desktop/flutter-carpool/v8/Carpool/Readme_pics/WhatsApp Image 2022-02-13 at 11.38.50 AM (1).jpeg" alt="OTP verification" style="zoom:33%;" /> <img src="/home/mons/Desktop/flutter-carpool/v8/Carpool/Readme_pics/WhatsApp Image 2022-02-13 at 11.38.50 AM (3).jpeg" alt="Calander Select" style="zoom:33%;" />
+<img src="/home/mons/Desktop/flutter-carpool/v8/Carpool/Readme_pics/1.jpeg" alt="Login" style="zoom:33%;" /> <img src="/home/mons/Desktop/flutter-carpool/v8/Carpool/Readme_pics/2.jpeg" alt="OTP verification" style="zoom:33%;" /> <img src="/home/mons/Desktop/flutter-carpool/v8/Carpool/Readme_pics/3.jpeg" alt="HomeScreen" style="zoom:33%;" />
 
-
-
-<img src="/home/mons/Desktop/flutter-carpool/v8/Carpool/Readme_pics/WhatsApp Image 2022-02-13 at 11.38.50 AM (2).jpeg" alt="HomeScreen" style="zoom:33%;" />
-
-
-
-
-
-
-
-
-
-
-
-
+<img src="/home/mons/Desktop/flutter-carpool/v8/Carpool/Readme_pics/5.jpeg" alt="5" style="zoom: 33%;" /><img src="/home/mons/Desktop/flutter-carpool/v8/Carpool/Readme_pics/6.jpeg" alt="6" style="zoom: 33%;" /> <img src="/home/mons/Desktop/flutter-carpool/v8/Carpool/Readme_pics/4.jpeg" style="zoom: 67%;" />
 
 
 
@@ -82,6 +68,10 @@ The following set of technologies have been used for this project:
 
     #### NOTE : AVD version used to develop was 31.0 (Tested on pixel 4, 5 AVD)
 
+
+
+### NOTE: The OTP_auth service is hosted on a test-server which allows only 30 OTP request for a single day. Also all time inputs are considered to be in 24hr format 
+
 # Contributors
 
 - Ishan Jalan - https://www.linkedin.com/in/ishaan-jalan-550a28213/
@@ -94,4 +84,8 @@ The following set of technologies have been used for this project:
 # Github Repo link
 
 https://github.com/ishaanj0412/Carpool
+
+
+
+
 
