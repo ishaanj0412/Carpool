@@ -16,7 +16,8 @@ class BookingDetails extends StatefulWidget {
     Key? key,
   }) : super(key: key) {
     if (br == null) {
-      brs = LoginForm.u!.getBookingMatching(BookingRecord(LoginForm.u!.emailId, date));
+      brs = LoginForm.u!
+          .getBookingMatching(BookingRecord(LoginForm.u!.emailId, date));
     } else {
       brs = LoginForm.u!.getBookingMatching(br!);
     }
