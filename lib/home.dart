@@ -138,6 +138,13 @@ class Homepage extends State<Home> {
   }
 
   bool bookings() {
+    late double height, width;
+    if(MediaQuery.maybeOf(context)!=null) {
+      height = MediaQuery.maybeOf(context)!.size.height;
+    }
+    if(MediaQuery.maybeOf(context)!=null) {
+      width = MediaQuery.maybeOf(context)!.size.width;
+    }
     bool temp = false;
     String dt = " ";
     var newFormat = DateFormat("yyyy-MM-dd");
@@ -148,8 +155,8 @@ class Homepage extends State<Home> {
           temp = true;
           print(0);
           widgetlist = [
-            const SizedBox(
-              height: 10,
+            SizedBox(
+              height: 0.02*height,
             ),
             Center(
                 child: RichText(
@@ -165,8 +172,8 @@ class Homepage extends State<Home> {
                 ],
               ),
             )),
-            const SizedBox(
-              height: 15,
+            SizedBox(
+              height: 0.03*height,
             ),
           ];
 
@@ -215,8 +222,8 @@ class Homepage extends State<Home> {
         temp = false;
         print(1);
         widgetlist = [
-          const SizedBox(
-            height: 10,
+          SizedBox(
+            height: 0.02*height,
           ),
           Center(
               child: RichText(
@@ -232,8 +239,8 @@ class Homepage extends State<Home> {
               ],
             ),
           )),
-          const SizedBox(
-            height: 220,
+          SizedBox(
+            height: 0.34*height,
           ),
           const Center(
             child: Text(
