@@ -161,22 +161,22 @@ class User {
 
   Future<bool> fetchBookingRecord() async {
     if (isfetched) return true;
-    for (var element in dateRecords) {
+    await Future.forEach<DateTime>(dateRecords, (element) async {
       var newFormat = DateFormat("yyyy-MM-dd");
       String dt = newFormat.format(element);
       List<BookingRecord> arr = await DataBaseService.getBookingRecordsbyDate(dt); // lets say we got an array
       bool flag = false;
       late BookingRecord reqRecord;
-      arr.forEach((element) {
+      for (var element in arr) {
         if (element.uid == emailId) {
           flag = true;
           reqRecord = element;
         }
-      });
+      }
       if (flag) {
         bookingRecords.add(reqRecord);
       }
-    }
+    });
     isfetched = true;
     return true;
   }
