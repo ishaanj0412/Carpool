@@ -42,95 +42,97 @@ class Landing extends State<TabNavigator> {
           }
         },
         child: Scaffold(
-          appBar: AppBar(
-            title: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  "ShareCab",
-                  style: TextStyle(color: Colors.white, fontSize: 16.0),
+            appBar: AppBar(
+              title: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "ShareCab",
+                    style: TextStyle(color: Colors.white, fontSize: 16.0),
+                  ),
+                  Text(
+                    appcaption(),
+                    style: const TextStyle(color: Colors.white, fontSize: 14.0),
+                  )
+                ],
+              ),
+              leading: const Padding(
+                padding: EdgeInsets.all(5.0),
+                child: CircleAvatar(
+                  backgroundImage: AssetImage('assets/logo.png'),
+                  backgroundColor: Colors.black,
                 ),
-                Text(
-                  appcaption(),
-                  style: const TextStyle(color: Colors.white, fontSize: 14.0),
-                )
-              ],
+              ),
+              backgroundColor: Colors.black,
+              actions: actionwidgets(),
+              shape: const Border(
+                  bottom: BorderSide(
+                color: Color(0xFF424242),
+              )),
             ),
-            leading: const Padding(
-              padding: EdgeInsets.all(5.0),
-              child: CircleAvatar(
-                backgroundImage: AssetImage('assets/logo.png'),
+            bottomNavigationBar: Container(
+              decoration: const BoxDecoration(
+                  border: Border(
+                top: BorderSide(width: 0.5, color: Color(0xFF424242)),
+              )),
+              child: BottomNavigationBar(
+                items: const <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.home,
+                      color: Colors.blue,
+                    ),
+                    backgroundColor: Colors.black,
+                    label: 'Home',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.add,
+                      color: Colors.blue,
+                    ),
+                    label: 'New Booking',
+                    backgroundColor: Colors.black,
+                  ),
+                ],
+                type: BottomNavigationBarType.shifting,
+                currentIndex: state,
+                onTap: (index) {
+                  pageController.animateToPage(index, duration: const Duration(milliseconds: 500), curve: Curves.ease);
+                },
                 backgroundColor: Colors.black,
               ),
             ),
-            backgroundColor: Colors.black,
-            actions: actionwidgets(),
-            shape: const Border(
-                bottom: BorderSide(
-              color: Color(0xFF424242),
-            )),
-          ),
-          bottomNavigationBar: Container(
-            decoration: const BoxDecoration(
-                border: Border(
-              top: BorderSide(width: 0.5, color: Color(0xFF424242)),
-            )),
-            child: BottomNavigationBar(
-              items: const <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.home,
-                    color: Colors.blue,
-                  ),
-                  backgroundColor: Colors.black,
-                  label: 'Home',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.add,
-                    color: Colors.blue,
-                  ),
-                  label: 'New Booking',
-                  backgroundColor: Colors.black,
-                ),
-              ],
-              type: BottomNavigationBarType.shifting,
-              currentIndex: state,
-              onTap: (index) {
-                pageController.animateToPage(index,
-                    duration: const Duration(milliseconds: 500),
-                    curve: Curves.ease);
+            body: PageView(
+              controller: pageController,
+              onPageChanged: (index) {
+                setState(() {
+                  state = index;
+                });
               },
-              backgroundColor: Colors.black,
+              children: [
+                Home(),
+                Booking(),
+              ],
             ),
-          ),
-          body: PageView(
-            controller: pageController,
-            onPageChanged: (index) {
-              setState(() {
-                state = index;
-              });
-            },
-            children: [
-              Home(),
-              Booking(),
-            ],
-          ),
-          backgroundColor: Colors.black,
-        ));
+            backgroundColor: Colors.black));
   }
 
   _showCalendar(BuildContext context) async {
+    final DateTime? temp;
     if (state == 0) {
-      LoginForm.u.present = await showDatePicker(
+      temp = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime(1960),
         lastDate: DateTime(2060),
       );
+      if (temp != null) {
+        LoginForm.u.present = temp;
+        await Home.homep.setbookings();
+      }
       // homepage.createState().setbookings();
-      Home.homep.setbookings();
+
     }
   }
 

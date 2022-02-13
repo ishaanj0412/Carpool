@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:carpool/bookingdetails.dart';
 import 'package:flutter/material.dart';
 import 'package:carpool/LoginForm.dart';
+import 'package:interval_tree/interval_tree.dart' as iv;
 import 'package:carpool/user.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -31,6 +32,12 @@ class newBookings extends State<Booking> {
   late final TextEditingController select_end_time = TextEditingController();
   final GlobalKey<FormState> key = GlobalKey<FormState>();
 
+  newBookings() {
+    curBookingRecord = null;
+    curIntervalIndex = -1;
+    curUser = LoginForm.u;
+  }
+
   @override
   Widget build(BuildContext context) {
     //settime(false);
@@ -50,10 +57,7 @@ class newBookings extends State<Booking> {
                           title: Center(
                             child: Text(
                               "New Booking",
-                              style: TextStyle(
-                                  color: Colors.blue,
-                                  fontSize: 24,
-                                  fontFamily: 'Helvetica'),
+                              style: TextStyle(color: Colors.blue, fontSize: 24, fontFamily: 'Helvetica'),
                             ),
                           ),
                           tileColor: Color(0xFF212121),
@@ -64,15 +68,10 @@ class newBookings extends State<Booking> {
                         ListTile(
                           leading: Text(
                             "Date: ",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold),
+                            style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
                           ),
                           title: Center(
-                            child: Text(date,
-                                style: TextStyle(
-                                    color: Colors.grey[400], fontSize: 18)),
+                            child: Text(date, style: TextStyle(color: Colors.grey[400], fontSize: 18)),
                           ),
                           trailing: IconButton(
                               onPressed: () {
@@ -89,15 +88,10 @@ class newBookings extends State<Booking> {
                         ListTile(
                           leading: Text(
                             "Time: ",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold),
+                            style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
                           ),
                           title: Center(
-                            child: Text(interval,
-                                style: TextStyle(
-                                    color: Colors.grey[400], fontSize: 18)),
+                            child: Text(interval, style: TextStyle(color: Colors.grey[400], fontSize: 18)),
                           ),
                           trailing: IconButton(
                               onPressed: () {
@@ -113,27 +107,33 @@ class newBookings extends State<Booking> {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            print(startime + " " + endtime);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => AddBooking(
-                                        date,
-                                        startime,
-                                        endtime,
-                                        curIntervalIndex,
-                                        curBookingRecord)));
+                            //call bookifexusts
+                            //store result in flag
+                            // if flag is ok -> navigator push
+                            //else toast message "Booking already exists"
+                            if (curBookingRecord != null) {
+                              if (curUser.doesIntervalExist(curBookingRecord!, iv.Interval(int.parse(startime), int.parse(endtime)))) {
+                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                  content: Text("A Record already exists ! Please add a different timeslot"),
+                                ));
+                              }
+                            } else if (date == "Select date" || interval == "Select Time") {
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please fill all the fields !")));
+                            } else {
+                              print(startime + " " + endtime);
+
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) => AddBooking(date, startime, endtime, curIntervalIndex, curBookingRecord)));
+                            }
                           },
                           child: const Text(
                             "Get Details",
                             style: TextStyle(fontSize: 18),
                           ),
                           style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(7)),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
                             primary: Colors.green,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 30, vertical: 17),
+                            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 17),
                           ),
                         )
                       ],
@@ -145,8 +145,7 @@ class newBookings extends State<Booking> {
       if (val) {
         print("setdate called");
         var newFormat = DateFormat("yyyy-MM-dd");
-        if (LoginForm.u.selected != null)
-          date = newFormat.format(LoginForm.u.selected!);
+        if (LoginForm.u.selected != null) date = newFormat.format(LoginForm.u.selected!);
       } else {
         date = "Select Date";
       }
@@ -196,11 +195,7 @@ class newBookings extends State<Booking> {
                         title: Center(
                             child: Text(
                       "Select Time Interval",
-                      style: TextStyle(
-                          color: Colors.blue,
-                          fontSize: 22,
-                          fontFamily: 'Helvetica',
-                          fontWeight: FontWeight.bold),
+                      style: TextStyle(color: Colors.blue, fontSize: 22, fontFamily: 'Helvetica', fontWeight: FontWeight.bold),
                     ))),
                     SizedBox(
                       height: 10,
@@ -210,17 +205,13 @@ class newBookings extends State<Booking> {
                       child: ListTile(
                         leading: const Text(
                           "Start-Time:",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
+                          style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
                         ),
                         title: Center(
                           child: TextFormField(
                             validator: (value) {
-                              if (value != null) {
-                                if (int.parse(value) < 0 ||
-                                    int.parse(value) > 22) {
+                              if (value != null || value != "") {
+                                if (int.parse(value!) < 0 || int.parse(value) > 22) {
                                   return 'Please Enter Valid Start Time';
                                 } else {
                                   return null;
@@ -232,22 +223,18 @@ class newBookings extends State<Booking> {
                                 return 'Select Start-Time';
                               }
 
-                              return 'Enter Valid Time1';
+                              return 'Enter Valid Time';
                             },
                             keyboardType: TextInputType.number,
                             controller: select_start_time,
                             style: const TextStyle(color: Colors.white),
                             decoration: InputDecoration(
-                              hintStyle: const TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 14,
-                                  fontFamily: 'Helvetica'),
+                              hintStyle: const TextStyle(color: Colors.grey, fontSize: 14, fontFamily: 'Helvetica'),
                               hintText: "Start-Time",
                               filled: true,
                               fillColor: const Color(0xFF424242),
                               contentPadding: const EdgeInsets.all(15),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.0)),
+                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
                             ),
                           ),
                         ),
@@ -261,18 +248,14 @@ class newBookings extends State<Booking> {
                           padding: const EdgeInsets.only(right: 8.0),
                           child: const Text(
                             "End-Time:",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold),
+                            style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
                           ),
                         ),
                         title: Center(
                           child: TextFormField(
                             validator: (value) {
-                              if (value != null) {
-                                if (int.parse(value) < 0 ||
-                                    int.parse(value) > 23) {
+                              if (value != "") {
+                                if (int.parse(value!) < 0 || int.parse(value) > 23) {
                                   return 'Please Enter Valid Start Time';
                                 } else {
                                   return null;
@@ -290,17 +273,12 @@ class newBookings extends State<Booking> {
                             controller: select_end_time,
                             style: const TextStyle(color: Colors.white),
                             decoration: InputDecoration(
-                              hintStyle: const TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 14,
-                                  fontFamily: 'Helvetica'),
+                              hintStyle: const TextStyle(color: Colors.grey, fontSize: 14, fontFamily: 'Helvetica'),
                               hintText: "End-Time",
                               filled: true,
                               fillColor: const Color(0xFF424242),
-                              contentPadding:
-                                  const EdgeInsets.fromLTRB(17, 15, 17, 15),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(7.0)),
+                              contentPadding: const EdgeInsets.fromLTRB(17, 15, 17, 15),
+                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(7.0)),
                             ),
                           ),
                         ),
@@ -310,36 +288,38 @@ class newBookings extends State<Booking> {
                     ListTile(
                       trailing: SimpleDialogOption(
                         onPressed: () {
-                          //yaha update krna hai start aur end ko using controllers
                           setState(() {
                             bool f = false;
-                            if (int.parse(select_start_time.text) <
-                                int.parse(select_end_time.text)) {
-                              f = true;
-                            }
-
-                            if (key.currentState!.validate() && f) {
-                              print("Hello its me");
-                              settime(true);
-                              //validator
-                            } else if (!f) {
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(SnackBar(
-                                content: Text("Please Enter Valid Time"),
+                            if (select_start_time.text == null ||
+                                select_end_time.text == null ||
+                                select_end_time.text == "" ||
+                                select_end_time.text == "") {
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text("Please fill all fields"),
                               ));
                             } else {
-                              print("not valid");
+                              if (int.parse(select_start_time.text) < int.parse(select_end_time.text)) {
+                                f = true;
+                              }
+
+                              if (f && key.currentState!.validate()) {
+                                print("Hello its me");
+                                settime(true);
+                                //validator
+                              } else if (!f) {
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  content: Text("Please Enter Valid Time"),
+                                ));
+                              } else {
+                                print("not valid");
+                              }
+                              Navigator.pop(context, Options.OK);
                             }
-                            Navigator.pop(context, Options.OK);
                           });
                           //CALL VALIDATOR HERE
                           //Navigator.pop(context, Options.OK);
                         },
-                        child: const Text('OK',
-                            style: TextStyle(
-                                color: Colors.green,
-                                fontSize: 14,
-                                fontFamily: 'Helvetica')),
+                        child: const Text('OK', style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: 'Helvetica')),
                         // padding: EdgeInsets.fromLTRB(left, top, right, bottom),
                       ),
                       leading: SimpleDialogOption(
@@ -374,12 +354,7 @@ class newBookings extends State<Booking> {
     print("setbookings called");
     var newFormat = DateFormat("yyyy-MM-dd");
     String dt = "";
-    if (LoginForm.u.selected != null)
-      dt = newFormat.format(LoginForm.u.selected!);
-
-    curBookingRecord = null;
-    curIntervalIndex = -1;
-    curUser = LoginForm.u;
+    if (LoginForm.u.selected != null) dt = newFormat.format(LoginForm.u.selected!);
 
     // I have preset Date, there might be booking on that day or not
     // User -> BookingRecord

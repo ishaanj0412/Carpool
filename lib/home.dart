@@ -29,10 +29,12 @@ class Homepage extends State<Home> {
   ));
 
   // List<a.Interval> userintervals = [];
-
   User curUser = LoginForm.u;
   late BookingRecord? curBookingRecord;
   late int curIntervalIndex;
+  String date = "";
+  String starttime = "";
+  String endtime = "";
 
   List<Widget> widgetlist = [];
 
@@ -57,6 +59,10 @@ class Homepage extends State<Home> {
             children: <Widget>[
               SimpleDialogOption(
                 onPressed: () {
+                  starttime = curBookingRecord!.intervals[curIntervalIndex].start.toString() + ":00";
+                  print(starttime);
+                  endtime = curBookingRecord!.intervals[curIntervalIndex].end.toString() + ":00";
+                  print(endtime);
                   Navigator.pop(context, Options.ShowDetails);
                 },
                 child: const ListTile(
@@ -96,7 +102,7 @@ class Homepage extends State<Home> {
       case Options.ShowDetails:
         // Let's go.
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => BookingDetails("11-02-2022", "2:00", "3:00", curIntervalIndex, curBookingRecord)));
+            context, MaterialPageRoute(builder: (context) => BookingDetails(date, starttime, endtime, curIntervalIndex, curBookingRecord)));
         // TODO: connect with backend
         print("show details clicked");
         break;
@@ -116,16 +122,28 @@ class Homepage extends State<Home> {
   @override
   Widget build(BuildContext context) {
     setbookings();
-    return Scaffold(backgroundColor: Colors.black, body: presentwidget);
+    return Scaffold(
+        backgroundColor: Colors.black,
+        body: FutureBuilder<bool>(
+            future: setbookings(),
+            builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+              if (snapshot.hasData) {
+                return presentwidget;
+              } else {
+                return Center(child: CircularProgressIndicator());
+              }
+            }));
   }
 
-  void bookings() {
-    String dt;
+  bool bookings() {
+    bool temp = false;
+    String dt = " ";
     var newFormat = DateFormat("yyyy-MM-dd");
-    dt = newFormat.format(LoginForm.u.present!);
+    if (LoginForm.u.present != null) dt = newFormat.format(LoginForm.u.present!);
     setState(() {
       if (curBookingRecord != null) {
         if (curBookingRecord!.intervals.isNotEmpty) {
+          temp = true;
           print(0);
           widgetlist = [
             const SizedBox(
@@ -136,7 +154,7 @@ class Homepage extends State<Home> {
               text: TextSpan(
                 children: [
                   const WidgetSpan(
-                    child: Icon(Icons.calendar_today_rounded ,size: 22, color: Colors.blue),
+                    child: Icon(Icons.calendar_today_rounded, size: 22, color: Colors.blue),
                   ),
                   TextSpan(
                     text: " $dt",
@@ -192,6 +210,7 @@ class Homepage extends State<Home> {
           ));
         }
       } else {
+        temp = false;
         print(1);
         widgetlist = [
           const SizedBox(
@@ -202,7 +221,7 @@ class Homepage extends State<Home> {
             text: TextSpan(
               children: [
                 const WidgetSpan(
-                  child: Icon(Icons.calendar_today_rounded,size: 22, color: Colors.blue),
+                  child: Icon(Icons.calendar_today_rounded, size: 22, color: Colors.blue),
                 ),
                 TextSpan(
                   text: " $dt",
@@ -230,14 +249,15 @@ class Homepage extends State<Home> {
         ));
       }
     });
+    return temp;
   }
 
-  void setbookings() async {
+  Future<bool> setbookings() async {
     print("setbookings called");
     var newFormat = DateFormat("yyyy-MM-dd");
     String dt = "";
     if (LoginForm.u.present != null) dt = newFormat.format(LoginForm.u.present!);
-
+    date = dt;
     curBookingRecord = null;
     curIntervalIndex = -1;
     curUser = LoginForm.u;
@@ -247,6 +267,7 @@ class Homepage extends State<Home> {
     // if (curBookingRecord is null) means that day has no record
 
     curBookingRecord = curUser.bookingRecordExists(dt);
-    bookings();
+    bool temp = bookings();
+    return temp;
   }
 }
