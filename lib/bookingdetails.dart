@@ -15,7 +15,11 @@ class BookingDetails extends StatefulWidget {
     BookingRecord? this.br, {
     Key? key,
   }) : super(key: key) {
-    brs = LoginForm.u!.getBookingMatching(br!);
+    if (br == null) {
+      brs = LoginForm.u!.getBookingMatching(BookingRecord(LoginForm.u!.emailId, date));
+    } else {
+      brs = LoginForm.u!.getBookingMatching(br!);
+    }
     widgetlist = [
       const ListTile(
         title: Center(
