@@ -20,14 +20,14 @@ The following set of technologies have been used for this project:
 
 ## Screenshots  :-
 <p float ="left">
-<img src="https://github.com/ishaanj0412/Carpool/blob/a34bccce77ff397a046ceb1f21234082e04688fd/Readme_pics/1.jpeg" alt="Login" width="300" /> 
-<img src="https://github.com/ishaanj0412/Carpool/blob/a34bccce77ff397a046ceb1f21234082e04688fd/Readme_pics/2.jpeg" alt="OTP verification" width="300" /> 
-<img src="https://github.com/ishaanj0412/Carpool/blob/a34bccce77ff397a046ceb1f21234082e04688fd/Readme_pics/3.jpeg" alt="HomeScreen" width="300" />
+<img src="https://github.com/ishaanj0412/Carpool/blob/a34bccce77ff397a046ceb1f21234082e04688fd/Readme_pics/1.jpeg" alt="Login" width="30%" /> 
+<img src="https://github.com/ishaanj0412/Carpool/blob/a34bccce77ff397a046ceb1f21234082e04688fd/Readme_pics/2.jpeg" alt="OTP verification" width="30%" /> 
+<img src="https://github.com/ishaanj0412/Carpool/blob/a34bccce77ff397a046ceb1f21234082e04688fd/Readme_pics/3.jpeg" alt="HomeScreen" width="30%" />
 </p>
 <p float ="left">
-<img src="https://github.com/ishaanj0412/Carpool/blob/a34bccce77ff397a046ceb1f21234082e04688fd/Readme_pics/4.jpeg" alt="4" width="300" />
-<img src="https://github.com/ishaanj0412/Carpool/blob/a34bccce77ff397a046ceb1f21234082e04688fd/Readme_pics/5.jpeg" alt="5" width="300" />
-<img src="https://github.com/ishaanj0412/Carpool/blob/a34bccce77ff397a046ceb1f21234082e04688fd/Readme_pics/6.jpeg" alt="6" width="300" /> 
+<img src="https://github.com/ishaanj0412/Carpool/blob/a34bccce77ff397a046ceb1f21234082e04688fd/Readme_pics/4.jpeg" alt="4" width="30%" />
+<img src="https://github.com/ishaanj0412/Carpool/blob/a34bccce77ff397a046ceb1f21234082e04688fd/Readme_pics/5.jpeg" alt="5" width="30%" />
+<img src="https://github.com/ishaanj0412/Carpool/blob/a34bccce77ff397a046ceb1f21234082e04688fd/Readme_pics/6.jpeg" alt="6" width="300% /> 
 </p>
 
 
