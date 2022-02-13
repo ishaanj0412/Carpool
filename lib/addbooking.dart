@@ -62,7 +62,7 @@ class AddBooking extends StatefulWidget {
   final String date;
   final String starttime;
   final String endtime;
-  late Future<List<BookingRecord>> brs;
+  late Future<List<BookingRecord>?> brs;
   int curIntervalIndex;
   BookingRecord? br;
 
@@ -201,30 +201,44 @@ class _AddBookingState extends State<AddBooking> {
 
   Future<bool> avlblcarpools() async {
     bool temp = false;
-    List<BookingRecord> value = await widget.brs;
-    for (int i = 0; i < value.length; i++) {
-      temp = true;
-      String name = value[i].uid;
-      widget.widgetlist.add(
-        ListTile(
-          leading: const Icon(
-            Icons.person,
-            color: Colors.blue,
-            size: 22,
+    List<BookingRecord>? value = await widget.brs;
+    if (value != null) {
+      for (int i = 0; i < value.length; i++) {
+        temp = true;
+        String name = value[i].uid;
+        widget.widgetlist.add(
+          ListTile(
+            leading: const Icon(
+              Icons.person,
+              color: Colors.blue,
+              size: 22,
+            ),
+            title: Text(
+              name,
+              style: const TextStyle(color: Colors.white, fontFamily: 'Helvetica', fontSize: 15),
+            ),
+            tileColor: Colors.black,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
-          title: Text(
-            name,
-            style: const TextStyle(color: Colors.white, fontFamily: 'Helvetica', fontSize: 15),
+        );
+      }
+      if (value.isEmpty) {
+        temp = false;
+        widget.widgetlist.add(
+          const ListTile(
+            title: Center(
+              child: Text(
+                "Sorry, there are no carpools available in your time slot",
+                style: TextStyle(color: Colors.white, fontFamily: 'Helvetica', fontSize: 15),
+              ),
+            ),
+            tileColor: Colors.black,
           ),
-          tileColor: Colors.black,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
-      );
-    }
-    if (value.isEmpty) {
-      temp = false;
+        );
+      }
+    } else {
       widget.widgetlist.add(
         const ListTile(
           title: Center(

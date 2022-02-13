@@ -164,10 +164,10 @@ class User {
     await Future.forEach<DateTime>(dateRecords, (element) async {
       var newFormat = DateFormat("yyyy-MM-dd");
       String dt = newFormat.format(element);
-      List<BookingRecord> arr = await DataBaseService.getBookingRecordsbyDate(dt); // lets say we got an array
+      List<BookingRecord>? arr = await DataBaseService.getBookingRecordsbyDate(dt); // lets say we got an array
       bool flag = false;
       late BookingRecord reqRecord;
-      for (var element in arr) {
+      for (var element in arr!) {
         if (element.uid == emailId) {
           flag = true;
           reqRecord = element;
@@ -193,7 +193,7 @@ class User {
     String dt = newFormat.format(date);
     late List<BookingRecord> arr;
     try {
-      arr = await DataBaseService.getBookingRecordsbyDate(dt);
+      arr = (await DataBaseService.getBookingRecordsbyDate(dt))!;
     } catch (e) {
       arr = [];
     }
@@ -233,11 +233,12 @@ class User {
     return json;
   }
 
-  Future<List<BookingRecord>> getBookingMatching(BookingRecord? br, Interval? interval) async {
+  Future<List<BookingRecord>?> getBookingMatching(BookingRecord? br, Interval? interval) async {
     if (br == null) return [];
     if (interval == null) return [];
-    List<BookingRecord> brs = await DataBaseService.getBookingRecordsbyDate(br.date);
-    brs.remove(br);
+    List<BookingRecord>? brs = await DataBaseService.getBookingRecordsbyDate(br.date);
+    if (brs == null) return null;
+    brs!.remove(br);
     List<BookingRecord> ret = [];
 
     for (var bookingRecord in brs) {

@@ -46,10 +46,11 @@ class DataBaseService {
     return await dbDates.doc(dt).set(await LoginForm.u!.dateJson(date));
   }
 
-  static Future<List<BookingRecord>> getBookingRecordsbyDate(String date) async {
+  static Future<List<BookingRecord>?> getBookingRecordsbyDate(String date) async {
     //dbUsers -> database as a list
 
     DocumentSnapshot<Map<String, dynamic>> temp = await dbDates.doc(date).get();
+    if (temp.data() == null) return null;
     return BookingRecord.fromJson(temp.data());
   }
 }
