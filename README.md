@@ -24,11 +24,9 @@ The following set of technologies have been used for this project:
 
 <img src="Readme_pics/WhatsApp Image 2022-02-13 at 11.38.50 AM.jpeg" width="600" height="900">
 
-<img src="/Readme_pics/WhatsApp Image 2022-02-13 at 11.38.50 AM (1).jpeg" width="600" height="900">
 
 
-
-<img src="/home/karanjitsaha/Desktop/Report_pics/WhatsApp Image 2022-02-13 at 11.38.50 AM (2).jpeg" width="600" height="900">
+<img src="Readme_pics/WhatsApp Image 2022-02-13 at 11.38.50 AM (2).jpeg" width="600" height="900">
 
 
 
