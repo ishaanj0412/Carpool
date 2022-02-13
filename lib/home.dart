@@ -5,6 +5,8 @@ import 'package:interval_tree/interval_tree.dart' as a;
 import 'package:intl/intl.dart';
 import 'package:carpool/bookingdetails.dart';
 
+import 'database.dart';
+
 class Home extends StatefulWidget {
   Home({Key? key}) : super(key: key);
 
@@ -29,7 +31,7 @@ class Homepage extends State<Home> {
   ));
 
   // List<a.Interval> userintervals = [];
-  User curUser = LoginForm.u;
+  late User? curUser;
   late BookingRecord? curBookingRecord;
   late int curIntervalIndex;
   String date = "";
@@ -110,7 +112,7 @@ class Homepage extends State<Home> {
         //remove stuff from databse
         //call build ui
         if (curIntervalIndex != -1) {
-          LoginForm.u.deleteBooking(curBookingRecord!, curBookingRecord!.intervals[curIntervalIndex]);
+          LoginForm.u!.deleteBooking(curBookingRecord!, curBookingRecord!.intervals[curIntervalIndex]);
         }
         curIntervalIndex = -1;
 
@@ -139,7 +141,7 @@ class Homepage extends State<Home> {
     bool temp = false;
     String dt = " ";
     var newFormat = DateFormat("yyyy-MM-dd");
-    if (LoginForm.u.present != null) dt = newFormat.format(LoginForm.u.present!);
+    if (LoginForm.u!.present != null) dt = newFormat.format(LoginForm.u!.present!);
     setState(() {
       if (curBookingRecord != null) {
         if (curBookingRecord!.intervals.isNotEmpty) {
@@ -256,17 +258,23 @@ class Homepage extends State<Home> {
     print("setbookings called");
     var newFormat = DateFormat("yyyy-MM-dd");
     String dt = "";
-    if (LoginForm.u.present != null) dt = newFormat.format(LoginForm.u.present!);
-    date = dt;
+
     curBookingRecord = null;
     curIntervalIndex = -1;
+
+    if (LoginForm.u == null) {
+      LoginForm.u = await DataBaseService.getData(LoginForm.email!);
+      LoginForm.u!.fetchBookingRecord();
+    }
     curUser = LoginForm.u;
 
+    if (LoginForm.u!.present != null) dt = newFormat.format(LoginForm.u!.present!);
+    date = dt;
     // I have preset Date, there might be booking on that day or not
     // User -> BookingRecord
     // if (curBookingRecord is null) means that day has no record
 
-    curBookingRecord = curUser.bookingRecordExists(dt);
+    curBookingRecord = curUser!.bookingRecordExists(dt);
     bool temp = bookings();
     return temp;
   }

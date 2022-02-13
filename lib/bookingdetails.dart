@@ -15,7 +15,7 @@ class BookingDetails extends StatefulWidget {
     BookingRecord? this.br, {
     Key? key,
   }) : super(key: key) {
-    brs = LoginForm.u.getBookingMatching(br!);
+    brs = LoginForm.u!.getBookingMatching(br!);
     widgetlist = [
       const ListTile(
         title: Center(
@@ -118,8 +118,8 @@ class _BookingDetailsState extends State<BookingDetails> {
         backgroundColor: Colors.black,
         shape: const Border(
             bottom: BorderSide(
-              color: Color(0xFF424242),
-            )),
+          color: Color(0xFF424242),
+        )),
       ),
       backgroundColor: Colors.black,
       floatingActionButton: FloatingActionButton(
@@ -131,51 +131,51 @@ class _BookingDetailsState extends State<BookingDetails> {
                 builder: (context) => Scaffold(
                   backgroundColor: Colors.black,
                   body: AlertDialog(
-                  backgroundColor: Color(0xFF212121),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14),
+                    backgroundColor: Color(0xFF212121),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    title: const Center(
+                      child: Text(
+                        'Cancel Booking',
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                      ),
+                    ), // To display the title it is optional
+                    content: const Text(
+                      'Are you sure you want to cancel the booking?',
+                      style: TextStyle(color: Colors.white),
+                    ), // Message which will be pop up on the screen
+                    // Action widget which will provide the user to acknowledge the choice
+                    actions: [
+                      TextButton(
+                        // FlatButton widget is used to make a text to work like a button
+                        onPressed: () {
+                          //DB deletion strategy same as home.dart
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                          // TODO: add delete
+                          if (widget.curIntervalIndex != -1 && widget.br != null) {
+                            LoginForm.u!.deleteBooking(widget.br!, widget.br!.intervals[widget.curIntervalIndex]);
+                          }
+                          widget.curIntervalIndex = -1;
+                          Home.homep.bookings();
+                        }, // function used to perform after pressing the button
+                        child: const Text(
+                          'YES',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text(
+                          'NO',
+                          style: TextStyle(color: Colors.green),
+                        ),
+                      ),
+                    ],
                   ),
-                  title: const Center(
-                    child: Text(
-                      'Cancel Booking',
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
-                  ), // To display the title it is optional
-                  content: const Text(
-                    'Are you sure you want to cancel the booking?',
-                    style: TextStyle(color: Colors.white),
-                  ), // Message which will be pop up on the screen
-                  // Action widget which will provide the user to acknowledge the choice
-                  actions: [
-                    TextButton(
-                      // FlatButton widget is used to make a text to work like a button
-                      onPressed: () {
-                        //DB deletion strategy same as home.dart
-                        Navigator.pop(context);
-                        Navigator.pop(context);
-                        // TODO: add delete
-                        if (widget.curIntervalIndex != -1 && widget.br != null) {
-                          LoginForm.u.deleteBooking(widget.br!, widget.br!.intervals[widget.curIntervalIndex]);
-                        }
-                        widget.curIntervalIndex = -1;
-                        Home.homep.bookings();
-                      }, // function used to perform after pressing the button
-                      child: const Text(
-                        'YES',
-                        style: TextStyle(color: Colors.red),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text(
-                        'NO',
-                        style: TextStyle(color: Colors.green),
-                      ),
-                    ),
-                  ],
-                ),
                 ),
               ),
             );

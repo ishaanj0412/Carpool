@@ -68,10 +68,10 @@ class OTP extends StatelessWidget {
                             if (await flag1) {
                               //get existing user
                               LoginForm.u = await DataBaseService.getData(emailidcontroller.text);
-                              await LoginForm.u.fetchBookingRecord();
+                              await LoginForm.u!.fetchBookingRecord();
                             } else {
                               LoginForm.u = await User(emailId: emailidcontroller.text, rollNumber: rollnumbercontroller.text, dateRecords: []);
-                              await LoginForm.u.update();
+                              await LoginForm.u!.update();
                             }
 
                             // storing in local storage

@@ -22,7 +22,7 @@ class Booking extends StatefulWidget {
 }
 
 class newBookings extends State<Booking> {
-  User curUser = LoginForm.u;
+  User? curUser = LoginForm.u;
   late BookingRecord? curBookingRecord;
   late int curIntervalIndex;
   String date = "Select date";
@@ -114,7 +114,7 @@ class newBookings extends State<Booking> {
                                   // if flag is ok -> navigator push
                                   //else toast message "Booking already exists"
                                   if (curBookingRecord != null) {
-                                    if (curUser.doesIntervalExist(curBookingRecord!, iv.Interval(int.parse(startime), int.parse(endtime)))) {
+                                    if (curUser!.doesIntervalExist(curBookingRecord!, iv.Interval(int.parse(startime), int.parse(endtime)))) {
                                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                                         content: Text("A Record already exists ! Please add a different timeslot"),
                                       ));
@@ -151,7 +151,7 @@ class newBookings extends State<Booking> {
       if (val) {
         print("setdate called");
         var newFormat = DateFormat("yyyy-MM-dd");
-        if (LoginForm.u.selected != null) date = newFormat.format(LoginForm.u.selected!);
+        if (LoginForm.u!.selected != null) date = newFormat.format(LoginForm.u!.selected!);
       } else {
         date = "Select Date";
       }
@@ -174,7 +174,7 @@ class newBookings extends State<Booking> {
   }
 
   _showCalendar(BuildContext context) async {
-    LoginForm.u.selected = await showDatePicker(
+    LoginForm.u!.selected = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2022),
@@ -360,12 +360,12 @@ class newBookings extends State<Booking> {
     print("setbookings called");
     var newFormat = DateFormat("yyyy-MM-dd");
     String dt = "";
-    if (LoginForm.u.selected != null) dt = newFormat.format(LoginForm.u.selected!);
+    if (LoginForm.u!.selected != null) dt = newFormat.format(LoginForm.u!.selected!);
 
     // I have preset Date, there might be booking on that day or not
     // User -> BookingRecord
     // if (curBookingRecord is null) means that day has no record
 
-    curBookingRecord = curUser.bookingRecordExists(dt);
+    curBookingRecord = curUser!.bookingRecordExists(dt);
   }
 }

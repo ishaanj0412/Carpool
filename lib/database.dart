@@ -43,7 +43,7 @@ class DataBaseService {
     var newFormat = DateFormat("yyyy-MM-dd");
     String dt = newFormat.format(date);
 
-    return await dbDates.doc(dt).set(await LoginForm.u.dateJson(date));
+    return await dbDates.doc(dt).set(await LoginForm.u!.dateJson(date));
   }
 
   static Future<List<BookingRecord>> getBookingRecordsbyDate(String date) async {

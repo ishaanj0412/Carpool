@@ -260,17 +260,7 @@ class User {
 
   static Future<void> storeUser(String emailID) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString("email", emailID);
-  }
-
-  static Future<bool> checkUser() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? email = prefs.getString("email");
-    if (email == null || email == "") {
-      return false;
-    } else {
-      return true;
-    }
+    prefs.setString("emailID", emailID);
   }
 
   factory User.fromJson(Map<String, dynamic>? data) {

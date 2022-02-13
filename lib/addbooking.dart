@@ -6,21 +6,14 @@ import 'LoginForm.dart';
 class AddBooking extends StatefulWidget {
   late List<Widget> widgetlist;
 
-  AddBooking(this.date, this.starttime, this.endtime, this.curIntervalIndex,
-      BookingRecord? this.br,
-      {Key? key})
-      : super(key: key) {
-    brs = LoginForm.u.getBookingMatching(br);
+  AddBooking(this.date, this.starttime, this.endtime, this.curIntervalIndex, BookingRecord? this.br, {Key? key}) : super(key: key) {
+    brs = LoginForm.u!.getBookingMatching(br);
     widgetlist = [
       const ListTile(
         title: Center(
           child: Text(
             "Details",
-            style: TextStyle(
-                color: Colors.blue,
-                fontFamily: 'Helvetica',
-                fontSize: 22,
-                fontWeight: FontWeight.bold),
+            style: TextStyle(color: Colors.blue, fontFamily: 'Helvetica', fontSize: 22, fontWeight: FontWeight.bold),
           ),
         ),
         tileColor: Colors.black,
@@ -33,8 +26,7 @@ class AddBooking extends StatefulWidget {
         ),
         title: Text(
           "Date: $date",
-          style: const TextStyle(
-              color: Colors.white, fontFamily: 'Helvetica', fontSize: 15),
+          style: const TextStyle(color: Colors.white, fontFamily: 'Helvetica', fontSize: 15),
         ),
         tileColor: Colors.black,
       ),
@@ -46,8 +38,7 @@ class AddBooking extends StatefulWidget {
         ),
         title: Text(
           "Time Slot: $starttime Hours to $endtime Hours",
-          style: const TextStyle(
-              color: Colors.white, fontFamily: 'Helvetica', fontSize: 15),
+          style: const TextStyle(color: Colors.white, fontFamily: 'Helvetica', fontSize: 15),
         ),
         tileColor: Colors.black,
       ),
@@ -55,11 +46,7 @@ class AddBooking extends StatefulWidget {
         title: Center(
           child: Text(
             "Available Carpools",
-            style: TextStyle(
-                color: Colors.blue,
-                fontFamily: 'Helvetica',
-                fontSize: 22,
-                fontWeight: FontWeight.bold),
+            style: TextStyle(color: Colors.blue, fontFamily: 'Helvetica', fontSize: 22, fontWeight: FontWeight.bold),
           ),
         ),
         tileColor: Colors.black,
@@ -80,16 +67,7 @@ class AddBooking extends StatefulWidget {
 
 class _AddBookingState extends State<AddBooking> {
   // late List<BookingRecord> brs;
-  List<String> carpools = [
-    "Ishaan Jalan",
-    "Rudransh Dixit",
-    "hewwo",
-    "manda",
-    "ramesh",
-    "mukesh",
-    "sukesh",
-    "nilesh"
-  ];
+  List<String> carpools = ["Ishaan Jalan", "Rudransh Dixit", "hewwo", "manda", "ramesh", "mukesh", "sukesh", "nilesh"];
 
   // TODO: add getBookingData..
   @override
@@ -163,7 +141,7 @@ class _AddBookingState extends State<AddBooking> {
                       // FlatButton widget is used to make a text to work like a button
                       onPressed: () {
                         //ADD BOOKING DATABASE
-                        LoginForm.u.addBooking(
+                        LoginForm.u!.addBooking(
                             DateTime.parse(widget.date), // YYYY-MM-DD
                             int.parse(widget.starttime),
                             int.parse(widget.endtime));
@@ -231,8 +209,7 @@ class _AddBookingState extends State<AddBooking> {
           ),
           title: Text(
             name,
-            style: const TextStyle(
-                color: Colors.white, fontFamily: 'Helvetica', fontSize: 15),
+            style: const TextStyle(color: Colors.white, fontFamily: 'Helvetica', fontSize: 15),
           ),
           tileColor: Colors.black,
           shape: RoundedRectangleBorder(
@@ -248,8 +225,7 @@ class _AddBookingState extends State<AddBooking> {
           title: Center(
             child: Text(
               "Sorry, there are no carpools available in your time slot",
-              style: TextStyle(
-                  color: Colors.white, fontFamily: 'Helvetica', fontSize: 15),
+              style: TextStyle(color: Colors.white, fontFamily: 'Helvetica', fontSize: 15),
             ),
           ),
           tileColor: Colors.black,
