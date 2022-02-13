@@ -57,12 +57,12 @@ class _LoginPageState extends State<LoginPage> {
   void autoLogIn() async {
     SharedPreferences.getInstance().then((value) {
       final String? emailID = value.getString("emailID");
-
+      LoginForm.email = emailID;
       if (emailID != null || emailID != "") {
         setState(() => _body = Stack(children: const <Widget>[
               TabNavigator(),
             ]));
-        LoginForm.email = emailID;
+        
         LoginForm.u = null;
       } else {
         setState(() => _body = Stack(

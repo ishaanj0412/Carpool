@@ -123,7 +123,7 @@ class Homepage extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    setbookings();
+    // setbookings();
     return Scaffold(
         backgroundColor: Colors.black,
         body: FutureBuilder<bool>(

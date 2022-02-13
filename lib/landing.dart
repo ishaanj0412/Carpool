@@ -124,7 +124,7 @@ class Landing extends State<TabNavigator> {
       temp = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
-        firstDate: DateTime(1960),
+        firstDate: DateTime.now(),
         lastDate: DateTime(2060),
       );
       if (temp != null) {
