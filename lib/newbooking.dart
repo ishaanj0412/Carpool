@@ -71,7 +71,7 @@ class newBookings extends State<Booking> {
                           tileColor: Color(0xFF212121),
                         ),
                         SizedBox(
-                          height: 0.1*height,
+                          height: 0.12*height,
                         ),
                         ListTile(
                           leading: Text(
@@ -91,7 +91,7 @@ class newBookings extends State<Booking> {
                               )),
                         ),
                         SizedBox(
-                          height: 0.05*height,
+                          height: 0.04*height,
                         ),
                         ListTile(
                           leading: Text(
@@ -111,7 +111,7 @@ class newBookings extends State<Booking> {
                               )),
                         ),
                         SizedBox(
-                          height: 0.05*height,
+                          height: 0.12*height,
                         ),
                         Padding(
                           padding: EdgeInsets.only(bottom: 0.05*height),
@@ -370,7 +370,7 @@ class newBookings extends State<Booking> {
     var newFormat = DateFormat("yyyy-MM-dd");
     String dt = "";
     if (LoginForm.u.selected != null) dt = newFormat.format(LoginForm.u.selected!);
-
+    curUser = LoginForm.u;
     // I have preset Date, there might be booking on that day or not
     // User -> BookingRecord
     // if (curBookingRecord is null) means that day has no record
