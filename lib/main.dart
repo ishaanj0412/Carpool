@@ -58,20 +58,22 @@ class _LoginPageState extends State<LoginPage> {
     SharedPreferences.getInstance().then((value) {
       final String? emailID = value.getString("emailID");
       LoginForm.email = emailID;
-      if (emailID != null || emailID != "") {
-        setState(() => _body = Stack(children: const <Widget>[
-              TabNavigator(),
-            ]));
-        
-        LoginForm.u = null;
-      } else {
-        setState(() => _body = Stack(
-              children: <Widget>[
-                //TabNavigator(),
-                LoginForm(form_key: form_key, orgid: orgid, email_id_controller: email_id_controller, roll_num_controller: roll_num_controller),
-              ],
-            ));
+      if (emailID != null) {
+        if (emailID!.isNotEmpty) {
+          setState(() => _body = Stack(children: const <Widget>[
+                TabNavigator(),
+              ]));
+          
+          LoginForm.u = null;
+          return;
+        }
       }
+      setState(() => _body = Stack(
+            children: <Widget>[
+              //TabNavigator(),
+              LoginForm(form_key: form_key, orgid: orgid, email_id_controller: email_id_controller, roll_num_controller: roll_num_controller),
+            ],
+          ));
     });
   }
 
