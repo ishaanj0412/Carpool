@@ -107,7 +107,7 @@ class LoginForm extends StatelessWidget {
                       onPressed: () {
                         if (form_key.currentState!.validate()) {
                           //add backend
-                          //sendOTP(email_id_controller);
+                          sendOTP(email_id_controller);
                           Navigator.push(
                               context,
                               MaterialPageRoute(
