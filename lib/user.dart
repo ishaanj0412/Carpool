@@ -1,7 +1,9 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:interval_tree/interval_tree.dart';
 import 'package:intl/intl.dart';
 import 'package:carpool/database.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BookingRecord {
   List<Interval> intervals = [];
@@ -57,8 +59,7 @@ class BookingRecord {
 class User {
   String emailId;
   String rollNumber;
-  late List<DateTime>
-      dateRecords; // All the records based on date of the user only
+  late List<DateTime> dateRecords; // All the records based on date of the user only
   late List<BookingRecord> bookingRecords; // All the booking record
   //Map travelTime = <DateTime, IntervalTree>{};
   DateTime? present, selected;
@@ -82,6 +83,7 @@ class User {
   }
 
   BookingRecord? bookingRecordExists(String dt) {
+    if (dt == "") return null;
     if (dateRecords.contains(DateTime.parse(dt))) {
       if (bookingRecords.contains(BookingRecord(emailId, dt))) {
         for (var element in bookingRecords) {
@@ -96,7 +98,7 @@ class User {
 
   bool doesIntervalExist(BookingRecord br, Interval interval) {
     for (var element in br.intervals) {
-      if (element.intersects(interval)) {
+      if (intersects(element, interval)) {
         return true;
       }
     }
@@ -154,12 +156,11 @@ class User {
     await update();
   }
 
-  Future<void> fetchBookingRecord() async {
+  Future<bool> fetchBookingRecord() async {
     dateRecords.forEach((element) async {
       var newFormat = DateFormat("yyyy-MM-dd");
       String dt = newFormat.format(element);
-      List<BookingRecord> arr = await DataBaseService.getBookingRecordsbyDate(
-          dt); // lets say we got an array
+      List<BookingRecord> arr = await DataBaseService.getBookingRecordsbyDate(dt); // lets say we got an array
       bool flag = false;
       late BookingRecord reqRecord;
       arr.forEach((element) {
@@ -172,6 +173,7 @@ class User {
         bookingRecords.add(reqRecord);
       }
     });
+    return true;
   }
 
   Future<void> update() async {
@@ -222,22 +224,17 @@ class User {
     dateRecords.forEach((element) {
       dateRec.add(newFormat.format(element));
     });
-    Map<String, dynamic> json = {
-      'emailid': emailId,
-      'rollnum': rollNumber,
-      'dates': dateRec
-    };
+    Map<String, dynamic> json = {'emailid': emailId, 'rollnum': rollNumber, 'dates': dateRec};
     return json;
   }
 
   Future<List<BookingRecord>> getBookingMatching(BookingRecord? br) async {
     if (br == null) return [];
 
-    List<BookingRecord> brs =
-        await DataBaseService.getBookingRecordsbyDate(br.date);
+    List<BookingRecord> brs = await DataBaseService.getBookingRecordsbyDate(br.date);
     brs.remove(br);
     List<BookingRecord> ret = [];
-    //br apna hee hai bhai
+
     for (var interval in br.intervals) {
       for (var bookingRecord in brs) {
         List<Interval> temp = bookingRecord.intervals;
@@ -245,8 +242,7 @@ class User {
         for (var element in temp) {
           if (intersects(element, interval)) {
             // temporary other users booking records
-            BookingRecord temp_br =
-                BookingRecord(bookingRecord.uid, bookingRecord.date);
+            BookingRecord temp_br = BookingRecord(bookingRecord.uid, bookingRecord.date);
             temp_br.addInterval(element.intersection(interval)!);
             ret.add(temp_br);
             break;
@@ -257,6 +253,21 @@ class User {
     return ret;
   }
 
+  static Future<void> storeUser(String emailID) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("email", emailID);
+  }
+
+  static Future<bool> checkUser() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? email = prefs.getString("email");
+    if (email == null || email == "") {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   factory User.fromJson(Map<String, dynamic>? data) {
     final String emailId = data!['emailid'] as String;
     final String rollNumber = data['rollnum'] as String;
@@ -264,16 +275,15 @@ class User {
     List<DateTime> dateRecords = [];
     temp.forEach((element) => {dateRecords.add(DateTime.parse(element))});
 
-    return User(
-        emailId: emailId, rollNumber: rollNumber, dateRecords: dateRecords);
+    return User(emailId: emailId, rollNumber: rollNumber, dateRecords: dateRecords);
   }
 
   static bool intersects(Interval i1, Interval i2) {
     //i1.endtime  < i2.starttiem provided i1.starttime<i2.starttime
     //i2.endtime < i1.starttime provided i2.starttime<i1.starttime
-    if (i1.end < i2.start && i1.start < i2.start) {
+    if (i1.end <= i2.start && i1.start <= i2.start) {
       return false;
-    } else if (i2.end < i1.start && i1.start > i2.start) {
+    } else if (i2.end <= i1.start && i1.start >= i2.start) {
       return false;
     }
     return true;

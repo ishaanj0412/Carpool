@@ -98,9 +98,7 @@ class Landing extends State<TabNavigator> {
               type: BottomNavigationBarType.shifting,
               currentIndex: state,
               onTap: (index) {
-                pageController.animateToPage(index,
-                    duration: const Duration(milliseconds: 500),
-                    curve: Curves.ease);
+                pageController.animateToPage(index, duration: const Duration(milliseconds: 500), curve: Curves.ease);
               },
               backgroundColor: Colors.black,
             ),
@@ -122,15 +120,20 @@ class Landing extends State<TabNavigator> {
   }
 
   _showCalendar(BuildContext context) async {
+    final DateTime? temp;
     if (state == 0) {
-      LoginForm.u.present = await showDatePicker(
+      temp = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime(1960),
         lastDate: DateTime(2060),
       );
+      if (temp != null) {
+        LoginForm.u.present = temp;
+        await Home.homep.setbookings();
+      }
       // homepage.createState().setbookings();
-      Home.homep.setbookings();
+
     }
   }
 

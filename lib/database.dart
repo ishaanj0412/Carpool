@@ -9,12 +9,12 @@ class DataBaseService {
 
   static final dbUsers = FirebaseFirestore.instance.collection('users');
   static final dbDates = FirebaseFirestore.instance.collection('dates');
-  static Future<bool> exists(String uid, String rnum) async {
+  static Future<bool> exists(String uid) async {
     return await (dbUsers.where("emailid", isEqualTo: uid).get()).then((value) => value.size > 0 ? true : false);
   }
 
-  static Future updatedata(User u) async {
-    return await dbUsers.doc(u.emailId).set(u.toJson());
+  static Future<void> updatedata(User u) async {
+    return dbUsers.doc(u.emailId).update(u.toJson());
   }
 
   static Future<Stream<User>> getdatastream(String uid) async {

@@ -41,21 +41,24 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    // LoginForm.u = User(rollNumber: "IMT2020056", emailId: "Rudransh.Dixit@iiitb.ac.in", dateRecords: []);
-    // LoginForm.u.addBooking(DateTime(2022, 1, 4), 3, 5);
-    // LoginForm.u.addBooking(DateTime(2022, 1, 4), 6, 9);
-    // LoginForm.u.update();
+    Scaffold? scaffold = null;
 
+    // if (check) {
+    //   return Scaffold(
+    //     backgroundColor: Colors.black,
+    //     body: Stack(
+    //       children: const <Widget>[
+    //         TabNavigator(),
+    //       ],
+    //     ),
+    //   );
+    // }
     return Scaffold(
       backgroundColor: Colors.black,
       body: Stack(
         children: <Widget>[
           //TabNavigator(),
-          LoginForm(
-              form_key: form_key,
-              orgid: orgid,
-              email_id_controller: email_id_controller,
-              roll_num_controller: roll_num_controller),
+          LoginForm(form_key: form_key, orgid: orgid, email_id_controller: email_id_controller, roll_num_controller: roll_num_controller),
         ],
       ),
     );
