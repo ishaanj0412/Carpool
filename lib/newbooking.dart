@@ -184,7 +184,7 @@ class newBookings extends State<Booking> {
     LoginForm.u!.selected = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2022),
+      firstDate: DateTime.now(),
       lastDate: DateTime(2060),
     );
     setbookings();
