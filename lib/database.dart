@@ -14,7 +14,7 @@ class DataBaseService {
   }
 
   static Future<void> updatedata(User u) async {
-    return dbUsers.doc(u.emailId).update(u.toJson());
+    return dbUsers.doc(u.emailId).set(u.toJson());
   }
 
   static Future<Stream<User>> getdatastream(String uid) async {

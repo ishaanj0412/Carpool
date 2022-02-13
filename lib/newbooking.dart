@@ -41,103 +41,109 @@ class newBookings extends State<Booking> {
   @override
   Widget build(BuildContext context) {
     //settime(false);
-    return Scaffold(
-        backgroundColor: Colors.black,
-        body: Padding(
-            padding: const EdgeInsets.fromLTRB(40, 60, 40, 60),
-            child: Center(
-                child: ListTile(
-                    tileColor: Colors.grey[900],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    title: ListView(
-                      children: <Widget>[
-                        const ListTile(
-                          title: Center(
-                            child: Text(
-                              "New Booking",
-                              style: TextStyle(color: Colors.blue, fontSize: 24, fontFamily: 'Helvetica'),
-                            ),
+    return Flex(direction: Axis.vertical, children: <Widget>[
+      Expanded(
+          child: Scaffold(
+              backgroundColor: Colors.black,
+              body: Padding(
+                  padding: const EdgeInsets.fromLTRB(40, 60, 40, 60),
+                  child: Center(
+                      child: ListTile(
+                          tileColor: Colors.grey[900],
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
                           ),
-                          tileColor: Color(0xFF212121),
-                        ),
-                        const SizedBox(
-                          height: 130,
-                        ),
-                        ListTile(
-                          leading: Text(
-                            "Date: ",
-                            style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                          title: Center(
-                            child: Text(date, style: TextStyle(color: Colors.grey[400], fontSize: 18)),
-                          ),
-                          trailing: IconButton(
-                              onPressed: () {
-                                _showCalendar(context);
-                              },
-                              icon: Icon(
-                                Icons.calendar_today,
-                                color: Colors.blue,
-                              )),
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        ListTile(
-                          leading: Text(
-                            "Time: ",
-                            style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                          title: Center(
-                            child: Text(interval, style: TextStyle(color: Colors.grey[400], fontSize: 18)),
-                          ),
-                          trailing: IconButton(
-                              onPressed: () {
-                                _selectTimeSlot();
-                              },
-                              icon: Icon(
-                                Icons.watch,
-                                color: Colors.blue,
-                              )),
-                        ),
-                        const SizedBox(
-                          height: 130,
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            //call bookifexusts
-                            //store result in flag
-                            // if flag is ok -> navigator push
-                            //else toast message "Booking already exists"
-                            if (curBookingRecord != null) {
-                              if (curUser.doesIntervalExist(curBookingRecord!, iv.Interval(int.parse(startime), int.parse(endtime)))) {
-                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                  content: Text("A Record already exists ! Please add a different timeslot"),
-                                ));
-                              }
-                            } else if (date == "Select date" || interval == "Select Time") {
-                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please fill all the fields !")));
-                            } else {
-                              print(startime + " " + endtime);
+                          title: ListView(
+                            children: <Widget>[
+                              const ListTile(
+                                title: Center(
+                                  child: Text(
+                                    "New Booking",
+                                    style: TextStyle(color: Colors.blue, fontSize: 24, fontFamily: 'Helvetica'),
+                                  ),
+                                ),
+                                tileColor: Color(0xFF212121),
+                              ),
+                              const SizedBox(
+                                height: 130,
+                              ),
+                              ListTile(
+                                leading: Text(
+                                  "Date: ",
+                                  style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                                title: Center(
+                                  child: Text(date, style: TextStyle(color: Colors.grey[400], fontSize: 18)),
+                                ),
+                                trailing: IconButton(
+                                    onPressed: () {
+                                      _showCalendar(context);
+                                    },
+                                    icon: Icon(
+                                      Icons.calendar_today,
+                                      color: Colors.blue,
+                                    )),
+                              ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              ListTile(
+                                leading: Text(
+                                  "Time: ",
+                                  style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                                title: Center(
+                                  child: Text(interval, style: TextStyle(color: Colors.grey[400], fontSize: 18)),
+                                ),
+                                trailing: IconButton(
+                                    onPressed: () {
+                                      _selectTimeSlot();
+                                    },
+                                    icon: Icon(
+                                      Icons.watch,
+                                      color: Colors.blue,
+                                    )),
+                              ),
+                              const SizedBox(
+                                height: 130,
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  //call bookifexusts
+                                  //store result in flag
+                                  // if flag is ok -> navigator push
+                                  //else toast message "Booking already exists"
+                                  if (curBookingRecord != null) {
+                                    if (curUser.doesIntervalExist(curBookingRecord!, iv.Interval(int.parse(startime), int.parse(endtime)))) {
+                                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                        content: Text("A Record already exists ! Please add a different timeslot"),
+                                      ));
+                                      return;
+                                    }
+                                  } else if (date == "Select date" || interval == "Select Time") {
+                                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please fill all the fields !")));
+                                    return;
+                                  }
+                                  print(startime + " " + endtime);
 
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) => AddBooking(date, startime, endtime, curIntervalIndex, curBookingRecord)));
-                            }
-                          },
-                          child: const Text(
-                            "Get Details",
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
-                            primary: Colors.green,
-                            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 17),
-                          ),
-                        )
-                      ],
-                    )))));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => AddBooking(date, startime, endtime, curIntervalIndex, curBookingRecord)));
+                                },
+                                child: const Text(
+                                  "Get Details",
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
+                                  primary: Colors.green,
+                                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 17),
+                                ),
+                              )
+                            ],
+                          ))))))
+    ]);
   }
 
   void setdate(bool val) async {
