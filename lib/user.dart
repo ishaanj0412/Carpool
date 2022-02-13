@@ -233,25 +233,23 @@ class User {
     return json;
   }
 
-  Future<List<BookingRecord>> getBookingMatching(BookingRecord? br) async {
+  Future<List<BookingRecord>> getBookingMatching(BookingRecord? br, Interval? interval) async {
     if (br == null) return [];
-
+    if (interval == null) return [];
     List<BookingRecord> brs = await DataBaseService.getBookingRecordsbyDate(br.date);
     brs.remove(br);
     List<BookingRecord> ret = [];
 
-    for (var interval in br.intervals) {
-      for (var bookingRecord in brs) {
-        List<Interval> temp = bookingRecord.intervals;
+    for (var bookingRecord in brs) {
+      List<Interval> temp = bookingRecord.intervals;
 
-        for (var element in temp) {
-          if (intersects(element, interval)) {
-            // temporary other users booking records
-            BookingRecord temp_br = BookingRecord(bookingRecord.uid, bookingRecord.date);
-            temp_br.addInterval(element.intersection(interval)!);
-            ret.add(temp_br);
-            break;
-          }
+      for (var element in temp) {
+        if (intersects(element, interval) && !ret.contains(bookingRecord)) {
+          // temporary other users booking records
+          BookingRecord temp_br = BookingRecord(bookingRecord.uid, bookingRecord.date);
+          temp_br.addInterval(element.intersection(interval)!);
+          ret.add(temp_br);
+          break;
         }
       }
     }

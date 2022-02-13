@@ -1,5 +1,6 @@
 import 'package:carpool/user.dart';
 import 'package:flutter/material.dart';
+import 'package:interval_tree/interval_tree.dart' as iv;
 
 import 'LoginForm.dart';
 
@@ -7,7 +8,11 @@ class AddBooking extends StatefulWidget {
   late List<Widget> widgetlist;
 
   AddBooking(this.date, this.starttime, this.endtime, this.curIntervalIndex, BookingRecord? this.br, {Key? key}) : super(key: key) {
-    brs = LoginForm.u!.getBookingMatching(br);
+    if (br != null) {
+      brs = LoginForm.u!.getBookingMatching(br, iv.Interval(int.parse(starttime), int.parse(endtime)));
+    } else {
+      brs = LoginForm.u!.getBookingMatching(BookingRecord(LoginForm.u!.emailId, date), iv.Interval(int.parse(starttime), int.parse(endtime)));
+    }
     widgetlist = [
       const ListTile(
         title: Center(
