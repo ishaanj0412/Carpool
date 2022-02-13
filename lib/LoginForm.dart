@@ -67,7 +67,7 @@ class LoginForm extends StatelessWidget {
                         hintStyle: const TextStyle(color: Colors.grey, fontSize: 14, fontFamily: 'Helvetica'),
                         labelStyle: const TextStyle(color: Colors.grey, fontSize: 14, fontFamily: 'Helvetica'),
                         hintText: "Enter Your Email",
-                        labelText: "Email ID",
+                        labelText: "Email ID (@iiitb.ac.in)",
                         filled: true,
                         fillColor: const Color(0xFF424242),
                         contentPadding: const EdgeInsets.all(15),
