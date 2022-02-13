@@ -19,6 +19,7 @@ The following set of technologies have been used for this project:
 **3) Dart** (Interfacing the UI and database)
 
 ## Screenshots  :-
+
 <img src="https://github.com/ishaanj0412/Carpool/blob/a34bccce77ff397a046ceb1f21234082e04688fd/Readme_pics/1.jpeg" alt="Login" width="30%" /> <img src="https://github.com/ishaanj0412/Carpool/blob/a34bccce77ff397a046ceb1f21234082e04688fd/Readme_pics/2.jpeg" alt="OTP verification" width="30%" /> <img src="https://github.com/ishaanj0412/Carpool/blob/a34bccce77ff397a046ceb1f21234082e04688fd/Readme_pics/3.jpeg" alt="HomeScreen" width="30%" />
 
 
@@ -54,11 +55,15 @@ The following set of technologies have been used for this project:
       3. Select the browser (e.g., Chrome or Firefox) you want to download the APK files from.
       4. Toggle **Allow app installs** on.
 
+  - Launch the app normally from your app menu like any other app ! 
+
 #### 			NOTE: Please ensure you have Android 9.0 or greater. 
+
+#### 		     For current project implementation , one MUST have a iiitb.ac.in email ID to use the app 
 
 - ### For Developement :
 
-  -  Setup [Flutter environment](https://docs.flutter.dev/get-started/install) and [Android Virtual Device Manager (AVD Manager)](https://medium.com/michael-wallace/how-to-install-android-sdk-and-setup-avd-emulator-without-android-studio-aeb55c014264)
+  - Setup [Flutter environment](https://docs.flutter.dev/get-started/install) and [Android Virtual Device Manager (AVD Manager)](https://medium.com/michael-wallace/how-to-install-android-sdk-and-setup-avd-emulator-without-android-studio-aeb55c014264)
 
   - Clone this repository 
 
@@ -84,8 +89,3 @@ The following set of technologies have been used for this project:
 # Github Repo link
 
 https://github.com/ishaanj0412/Carpool
-
-
-
-
-
