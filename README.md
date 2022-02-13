@@ -20,9 +20,9 @@ The following set of technologies have been used for this project:
 
 ## Screenshots  :-
 
-<img src="/home/mons/Desktop/flutter-carpool/v8/Carpool/Readme_pics/1.jpeg" alt="Login" style="zoom:33%;" /> <img src="/home/mons/Desktop/flutter-carpool/v8/Carpool/Readme_pics/2.jpeg" alt="OTP verification" style="zoom:33%;" /> <img src="/home/mons/Desktop/flutter-carpool/v8/Carpool/Readme_pics/3.jpeg" alt="HomeScreen" style="zoom:33%;" />
+<img src="https://github.com/ishaanj0412/Carpool/blob/a34bccce77ff397a046ceb1f21234082e04688fd/Readme_pics/1.jpeg" alt="Login" style="zoom:33%;" /> <img src="https://github.com/ishaanj0412/Carpool/blob/a34bccce77ff397a046ceb1f21234082e04688fd/Readme_pics/2.jpeg" alt="OTP verification" style="zoom:33%;" /> <img src="https://github.com/ishaanj0412/Carpool/blob/a34bccce77ff397a046ceb1f21234082e04688fd/Readme_pics/3.jpeg" alt="HomeScreen" style="zoom:33%;" />
 
-<img src="/home/mons/Desktop/flutter-carpool/v8/Carpool/Readme_pics/5.jpeg" alt="5" style="zoom: 33%;" /><img src="/home/mons/Desktop/flutter-carpool/v8/Carpool/Readme_pics/6.jpeg" alt="6" style="zoom: 33%;" /> <img src="/home/mons/Desktop/flutter-carpool/v8/Carpool/Readme_pics/4.jpeg" style="zoom: 67%;" />
+<img src="https://github.com/ishaanj0412/Carpool/blob/a34bccce77ff397a046ceb1f21234082e04688fd/Readme_pics/4.jpeg" alt="4" style="zoom: 33%;" /><img src="https://github.com/ishaanj0412/Carpool/blob/a34bccce77ff397a046ceb1f21234082e04688fd/Readme_pics/5.jpeg" alt="5" style="zoom: 33%;" /> <img src="https://github.com/ishaanj0412/Carpool/blob/a34bccce77ff397a046ceb1f21234082e04688fd/Readme_pics/6.jpeg" alt="6" style="zoom: 33%;" /> 
 
 
 
